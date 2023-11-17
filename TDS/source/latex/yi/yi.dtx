@@ -1,0 +1,3470 @@
+% \iffalse meta-comment
+%
+% Copyright (C) 2023 by Yu Du <3531243657@qq.com>
+% -----------------------------------------------------------
+% 
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later
+% version. The latest version of this license is in:
+% 
+%   http://www.latex-project.org/lppl.txt
+% 
+% and version 1.3 or later is part of all distributions of
+% LaTeX version 2005/12/01 or later.
+% 
+% This work has the LPPL maintenance status "maintained".
+% 
+% The Current Maintainer of this work is Yu Du.
+% 
+% -----------------------------------------------------------
+% 
+% This package consists of the file yi.dtx,
+%             and the derived files yi.ins,
+%                                   yi.sty,
+%                                   yi.pdf,
+%                               and README.md.
+%<*internal>
+\iffalse
+%</internal>
+%
+%<*readme>
+The `yi` package
+================
+
+The `yi` package provides commands for drawing various symbols in the I Ching.
+
+Basic usage
+-----------
+This package provides the following commands:
+
+    \taiji[<options>]
+    \yao[<options>]{<number>}
+    \taijibagua[<options>]{<xiantian/houtian>}
+    \liangyi[<options>]{<name>}
+    \sixiang[<options>]{<name>}
+    \bagua[<options>]{<name>}
+    \chonggua[<options>]{<name>}
+
+    
+Contributing
+------------
+
+This package is from the [yi](https://github.com/123dyu/yi) project.
+
+[Issues](https://github.com/123dyu/yi/issues) and
+[pull requests](https://github.com/123dyu/yi/pulls)
+are welcome.
+
+License
+-------
+
+This work may be distributed and/or modified under the conditions of the
+[LaTeX Project Public License](http://www.latex-project.org/lppl.txt),
+either version 1.3c of this license or (at your option) any later version.
+
+------
+
+Copyright (C) 2023 by Yu Du <3531243657@qq.com>
+%</readme>
+%
+%<*internal>
+\fi
+\begingroup
+  \def\NameOfLaTeXe{LaTeX2e}
+\expandafter\endgroup\ifx\NameOfLaTeXe\fmtname\else
+\csname fi\endcsname
+%</internal>
+
+%<*install>
+
+\input ctxdocstrip.tex
+\keepsilent
+
+\preamble
+
+    Copyright (C) 2023 by Yu Du <3531243657@qq.com>
+---------------------------------------------------------------
+ 
+    This work may be distributed and/or modified under the
+    conditions of the LaTeX Project Public License, either
+    version 1.3c of this license or (at your option) any later
+    version. The latest version of this license is in:
+    
+      http://www.latex-project.org/lppl.txt
+    
+    and version 1.3 or later is part of all distributions of
+    LaTeX version 2005/12/01 or later.
+    
+    This work has the LPPL maintenance status "maintained".
+    
+    The Current Maintainer of this work is Yu Du.
+    
+---------------------------------------------------------------
+
+    This package consists of the file yi.dtx,
+                and the derived files yi.ins,
+                                      yi.sty,
+                                      yi.pdf,
+                                  and README.md.
+
+\endpreamble
+
+\generate{
+  \usedir{tex/latex/yi}
+    \file{\jobname.sty} {\from{\jobname.dtx}{package}}
+%</install>
+%<*internal>
+  \usedir{source/latex/yi}
+    \file{\jobname.ins} {\from{\jobname.dtx}{install}}
+%</internal>
+%<*install>
+  \usedir{doc/latex/yi}
+  \nopreamble\nopostamble
+    \file{README.md}    {\from{\jobname.dtx}{readme}}
+}
+
+\obeyspaces
+\Msg{****************************************************}
+\Msg{*                                                  *}
+\Msg{* To finish the installation you have to move the  *}
+\Msg{* following file into a directory searched by TeX: *}
+\Msg{*                                                  *}
+\Msg{*     yi.sty                                       *}
+\Msg{*                                                  *}
+\Msg{* The recommended directory is                     *}
+\Msg{*   TDS:tex/latex/yi                               *}
+\Msg{*                                                  *}
+\Msg{* To produce the documentation run the file        *}
+\Msg{* yi.dtx through XeLaTeX.                          *}
+\Msg{*                                                  *}
+\Msg{* Happy TeXing!                                    *}
+\Msg{*                                                  *}
+\Msg{****************************************************}
+
+\endbatchfile
+%</install>
+%
+%<*internal>
+\fi
+%</internal>
+%
+%<package>\NeedsTeXFormat{LaTeX2e}
+%<package>\RequirePackage{expl3}
+%<package>\GetIdInfo$Id: yi.dtx 0.1 2023-11-06 11:00:00 +0800 Yu Du <3531243657@qq.com> $
+%<package>  {Yi Jing symbol drawing package}
+%<package>\ProvidesExplPackage{\ExplFileName}
+%<package>  {\ExplFileDate}{\ExplFileVersion}{\ExplFileDescription}
+%
+%<*driver>
+\documentclass{ctxdoc}
+\usepackage{yi}
+\usepackage{xpinyin}
+\usepackage{tikz}
+\ExplSyntaxOn
+\cs_set_protected:Npn \__codedoc_typeset_TF:
+  {
+    \group_begin:
+      \exp_args:No \__codedoc_if_macro_internal:nT \l__codedoc_tmpa_tl
+        { \color[gray]{0.5} }
+      \itshape TF
+      \makebox[0pt][r]
+        {
+          \color{red}
+          \underline{\phantom{\itshape TF} \kern-0.1em}
+        }
+    \group_end:
+  }
+\ExplSyntaxOff
+\begin{document}
+\DocInput{\jobname.dtx}
+\IndexLayout
+%^^A \PrintChanges
+\PrintIndex
+\end{document}
+%</driver>
+% \fi
+%
+% \changes{v0.1}{2023/11/01}{开始编写宏包。}
+%
+% \CheckSum{0}
+%
+% \CharacterTable
+%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%   Digits        \0\1\2\3\4\5\6\7\8\9
+%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%   Dollar        \$     Percent       \%     Ampersand     \&
+%   Acute accent  \'     Left paren    \(     Right paren   \)
+%   Asterisk      \*     Plus          \+     Comma         \,
+%   Minus         \-     Point         \.     Solidus       \/
+%   Colon         \:     Semicolon     \;     Less than     \<
+%   Equals        \=     Greater than  \>     Question mark \?
+%   Commercial at \@     Left bracket  \[     Backslash     \\
+%   Right bracket \]     Circumflex    \^     Underscore    \_
+%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%   Right brace   \}     Tilde         \~}
+%
+% \GetFileInfo{\jobname.sty}
+%
+% \title{\pkg{yi}《易经》符号绘制宏包}
+% \author{dyu}
+% \date{\filedate \quad \fileversion^^A
+%   \thanks{3531243657@qq.com}}
+%
+% \maketitle
+%
+%^^A \tableofcontents
+%
+% \begin{documentation}
+%
+% \section{简介}
+% \pkg{yi}是一个用于绘制《易经》中各种符号的\LaTeX{}宏包，可绘制的符号\footnote{出处：《易传$\cdot$系辞上》曰：“是故易有太极，是生两仪，两仪生四象，四象生八卦，八卦定吉凶，吉凶生大业。”}包括：太极、两仪\footnote{共$2^1=2$个：阴爻、阳爻}、四象\footnote{由阴爻和阳爻两两组合而成，共$2^2=4$个：太阳、少阴、少阳、太阴}、八卦\footnote{一卦三爻，共$2^3=8$卦：乾、兑、 离、 震、 巽、坎、艮、坤}、由八卦上下重叠而成的重卦\footnote{由八卦两两重叠而成，一卦六爻，共$2^6=64$卦：乾、坤、屯、蒙、需、讼、师、比、小畜、履、泰、否、同人、大有、谦、豫、随、蛊、临、观、噬嗑、贲、剥、复、无妄、大畜、颐、大过、坎、离、咸、恒、遁、大壮、晋、明夷、家人、睽、蹇、解、损、益、夬、姤、萃、升、困、井、革、鼎、震、艮、渐、归妹、丰、旅、巽、兑、涣、节、中孚、小过、既济、未济 }以及由太极和八卦组合而成的先天/后天太极八卦图。
+%
+% 该宏包提供了如下几个命令来绘制上述所说的各种符号：
+%   \begin{itemize}
+%     \item\tn{taiji}： 绘制太极图，该命令取名自“\xpinyin*[format=\color{red}]{太极}”。
+%     \item\tn{yao}： 用二进制（或十进制）数绘制两仪、四象、八卦、重卦，该命令取名自“\xpinyin*[format=\color{red}]{爻}”。
+%     \item\tn{taijibagua}： 绘制先天/后天太极八卦图，该命令取名自“\xpinyin*[format=\color{red}]{太极八卦}”。
+%     \item\tn{liangyi}： 通过两仪名称绘制两仪，该命令取名自“\xpinyin*[format=\color{red}]{两仪}”。
+%     \item\tn{sixiang}： 通过四象名称绘制四象，该命令取名自“\xpinyin*[format=\color{red}]{四象}”。
+%     \item\tn{bagua}： 通过八卦名称绘制八卦，该命令取名自“\xpinyin*[format=\color{red}]{八卦}”。
+%     \item\tn{chonggua}： 通过重卦名称绘制重卦，该命令取名自“\xpinyin*[format=\color{red}]{\xpinyin{重}{chong2}卦}”。
+%   \end{itemize}
+%   
+% 如果想绘制更多《易经》中的常用图像，可将该宏包与\pkg{tikz}宏包配合使用来完成绘制。
+%
+% \section{使用方法}
+% 
+% \subsection{绘制太极图}
+% 
+% \begin{function}{\taiji}
+%     \begin{syntax}
+%         \tn{taiji}\oarg{选项}
+%     \end{syntax}
+%    该命令用于绘制太极图，其带有一个可选参数（用方括号包裹），用于控制太极图的几何尺寸（太极图的半径、阴阳鱼眼的半径、线宽）与几何变换（旋转、缩放、镜像反射、相对于基线的升降）。
+%
+%    可选参数由一系列逗号分隔列表组成，列表中各项都具有\meta{key}=\meta{value}的形式。对于同一项，后面的设置会覆盖前面的设置，下面将分别介绍，并以\textbf{粗体}标注选项默认值。
+% \end{function}
+%
+% \subsubsection{太极图的几何尺寸设置}\label{subsubssec:taijihe}
+% \begin{function}{dim}
+%     \begin{syntax}
+%         dim = \Arg{键值列表}
+%         dim/\meta{key}=\meta{value}
+%     \end{syntax}
+%     该选项用于设置太极图的几何尺寸。具体说明见下。
+% \end{function}
+% 
+% \begin{function}{dim/Radius}
+%     \begin{syntax}
+%         Radius = \Arg{太极图半径}
+%     \end{syntax}
+%     设置太极图的半径，其默认值为0.5em。
+% \end{function}
+% 
+% \begin{function}{dim/radius}
+%     \begin{syntax}
+%         radius = \Arg{阴阳鱼眼半径}
+%     \end{syntax}
+%     设置阴阳鱼眼的半径，其默认值为0.05em。
+% \end{function}
+% 
+% \begin{function}{dim/linewidth}
+%     \begin{syntax}
+%         linewidth = \Arg{线宽}
+%     \end{syntax}
+%     设置太极图的线宽，其默认值为0.4pt。
+% \end{function}
+%
+% 关于太极图的几何尺寸设置，举例说明如下：
+%
+%   \begin{SideBySideExample}
+%     \taiji[
+%       dim/Radius    = 1em,
+%       dim/radius    = 0.1em,
+%       dim/linewidth = 0.1pt
+%     ] \qquad  
+%     \taiji[
+%       dim = {
+%         Radius    = 2em,
+%         radius    = 0.2em,
+%         linewidth = 1pt
+%       }
+%     ]
+%   \end{SideBySideExample}
+%
+% \subsubsection{太极图的几何变换}\label{subsubssec:taijihebian}
+% 
+% \begin{function}{lower}
+%     \begin{syntax}
+%         lower = \Arg{尺寸}
+%     \end{syntax}
+%     该选项用在\emph{水平模式}中（在垂直模式中无效）控制太极图相对于行基线的升降，若\meta{尺寸}为正，表示将太极图下移指定尺寸；若为负，则表示将太极图上移指定尺寸。这一选项的默认值为0pt，即太极图默认绘制于行基线上。举例说明如下：
+% \end{function}
+%   \begin{SideBySideExample}
+%     文字\taiji[lower=0.2em]
+%     文字{\taiji}
+%     文字\taiji[lower=-0.2em]
+%   \end{SideBySideExample}
+% 
+% \begin{function}{scale}
+%     \begin{syntax}
+%         scale = \Arg{缩放因子}
+%     \end{syntax}
+%     该选项用于控制太极图的缩放，其默认值为1，也就是无缩放。举例说明如下：
+% \end{function}
+%
+%   \begin{SideBySideExample}
+%     \ExplSyntaxOn
+%       \fp_step_inline:nnnn {0.5} {0.5} {3} 
+%         { \taiji[scale=#1]~ }
+%     \ExplSyntaxOff
+%   \end{SideBySideExample}
+%
+% \begin{function}{rotate}
+%    \begin{syntax}
+%        rotate = \Arg{旋转角度}
+%    \end{syntax}
+%    该选项用于控制太极图的旋转，其默认值为0，也就是无旋转。其中，\meta{旋转角度}采用角度制，值为正表示逆时针旋转，值为负表示顺时针旋转。举例说明如下：
+% \end{function}
+%   \begin{SideBySideExample}
+%     \ExplSyntaxOn
+%     \draw_begin:
+%       \draw_path_moveto:n { 0cm , 0cm }
+%       \int_step_inline:nnnn {0} {60} {360}
+%         {
+%           \draw_path_scope_begin:
+%             \draw_transform_shift:n 
+%               { (#1/60)cm , 0cm }
+%             \hcoffin_set:Nn \l_tmpa_coffin 
+%               { \taiji[ scale=2, rotate=#1 ] }
+%             \draw_coffin_use:Nnn 
+%                \l_tmpa_coffin {hc} {vc}
+%           \draw_path_scope_end:
+%         }
+%     \draw_end:
+%     \ExplSyntaxOff
+%   \end{SideBySideExample}
+%
+% \begin{function}{reflect}
+%    \begin{syntax}
+%      reflect = <\TFF>
+%    \end{syntax}
+%    用于设置是否将太极图做水平镜像反射，默认关闭。这是一个布尔型选项，其只能在\opt{true}和\opt{false}中取值，当设置其值为真，即“|reflect = true|”时，其中的“|= true|”可以省略。举例说明如下：
+% \end{function}
+%   \begin{SideBySideExample}
+%     \taiji[scale=3]~
+%     \taiji[scale=3,reflect]
+%   \end{SideBySideExample}
+%
+% \subsection{用数字绘制两仪、四象、八卦、重卦}
+% 
+% \begin{function}{\yao}
+%   \begin{syntax}
+%     \tn{yao}\oarg{选项列表}\Arg{数字}
+%   \end{syntax}
+%  该命令用于绘制单爻两仪、二爻四象、三爻八卦、六爻重卦，其带有一个可选参数和一个必选参数，可选参数用于控制进制数选择、在十进制数下的符号类型选择、爻的几何尺寸、由爻所组成符号的几何变换以及对动爻的标注；必选参数则为一个二进制数或十进制数。
+% 
+%  对于必选参数中的\meta{数字}，若为二进制数，则按数字从左往右的顺序由下而上（易经画卦规则）依次画爻（0表示阴爻，1表示阳爻）；若为十进制数，则需在可选参数中指明进制数为“\opt{dec}”，并同时指明符号类型（\opt{liangyi}、\opt{sixiang}、\opt{bagua}、\opt{chonggua}），然后按指定类型下与十进制数相对应的二进制数顺序由下而上依次画爻。
+%
+%  可选参数由一系列逗号分隔列表组成，列表中各项都具有\meta{key}=\meta{value}的形式。对于同一项，后面的设置会覆盖前面的设置。下面将分别介绍可选参数内提供的选项设置，并以\textbf{粗体}标注选项默认值。
+% \end{function}
+%
+% \subsubsection{进制选择}
+% 
+% \begin{function}{jinzhi}
+%   \begin{syntax}
+%     jinzhi = <dec|(bin)> 
+%   \end{syntax}
+%   设置画爻时所采用的进制数，这决定了\tn{yao}命令必选参数中\meta{数字}进制数的选择，默认是二进制(\opt{bin})。若设置为十进制(\opt{dec})，还需同时指明符号类型，参见\ref{subsubsec:fhlx}节。举例说明如下：
+% \end{function}
+%   \begin{SideBySideExample}
+%     \yao{110}~
+%     \yao[jinzhi=bin]{110}~
+%     \yao[jinzhi=dec,type=bagua]{6}
+%   \end{SideBySideExample}
+%
+%\subsubsection{符号类型选择}\label{subsubsec:fhlx}
+%
+%\begin{function}{type}
+%  \begin{syntax}
+%    type = <liangyi|sixiang|bagua|chonggua>
+%  \end{syntax}
+%  在选用\textbf{十进制数}的情况下设置符号类型为两仪、四象、八卦或重卦，这样才能根据相应类型画出正确的爻数。
+%
+%  在不同符号类型下，\tn{yao}命令必选参数中以十进制数书写的\meta{数字}的取值范围是有限制的，一旦超出相应范围就会报错并给出信息提示，具体范围见下：
+%  \begin{itemize}
+%    \item \opt{liangyi}:  $ 0 \le \meta{数字}_\text{dec} < 2  $
+%    \item \opt{sixiang}:  $ 0 \le \meta{数字}_\text{dec} < 4  $
+%    \item \opt{bagua}:    $ 0 \le \meta{数字}_\text{dec} < 8  $
+%    \item \opt{chonggua}: $ 0 \le \meta{数字}_\text{dec} < 64 $
+%  \end{itemize}
+%
+%  举例说明如下：
+% \end{function}
+%   \begin{SideBySideExample}
+%     \yao[jinzhi=dec,type=liangyi]{1}
+%     \yao[jinzhi=dec,type=sixiang]{1}
+%     \yao[jinzhi=dec,type=bagua]{1} 
+%     \yao[jinzhi=dec,type=chonggua]{1}
+%     \qquad
+%     \yao[jinzhi=dec,type=sixiang]{3} 
+%     \yao[jinzhi=dec,type=bagua]{3} 
+%     \yao[jinzhi=dec,type=chonggua]{3}
+%     \qquad
+%     \yao[jinzhi=dec,type=bagua]{7}
+%     \yao[jinzhi=dec,type=chonggua]{7}
+%   \end{SideBySideExample}
+%
+% \paragraph{将十进制数转化为二进制数，并根据相应类型在前补0：}~
+% \begin{function}{\yi_int_to_bin:nn}
+%   \begin{syntax}
+%     \cs{yi_int_to_bin:nn} \Arg{类型码} \Arg{十进制数}
+%   \end{syntax}
+%   该函数用于将\meta{十进制数}转化为由\meta{类型码}所指定类型下的二进制数。其中，\meta{类型码}的取值为：1, 2, 3, 4，分别代表：两仪，四象，八卦，重卦；同样，\meta{十进制数}在不同类型下有不同的取值范围；还有，由\meta{十进制数}转化后得到的二进制数所占位数在不同类型下也各不相同（位数不足的在前补0）。前面所述对应关系见表\ref{tab:10t02}：
+% \end{function}
+% 
+% \begin{table}[h]
+%   \centering
+%   \begin{tabular}{cclc}
+%     \toprule
+%     \textbf{类型码}  & \textbf{类型}& \textbf{十进制数取值范围}& \textbf{对应二进制数所占位数}\\
+%     \midrule
+%     1 & 两仪 & $ 0 \le \meta{十进制数} < 2 $  & 1位 \\
+%     2 & 四象 & $ 0 \le \meta{十进制数} < 4 $  & 2位 \\
+%     3 & 八卦 & $ 0 \le \meta{十进制数} < 8 $  & 3位 \\
+%     4 & 重卦 & $ 0 \le \meta{十进制数} < 64 $ & 6位 \\ 
+%     \bottomrule
+%   \end{tabular}
+%   \caption{不同类型码下的对应关系}
+%   \label{tab:10t02}
+% \end{table}
+% 
+% \paragraph{由爻组成的各类型符号所对应的十进制数与二进制数}
+% 十进制数标注于各符号上方，而二进制数（用函数\cs{yi_int_to_bin:nn}生成）则标注于各符号下方：
+% 
+% \begin{enumerate}
+%   \item 两仪：
+%   \begin{center}
+%     \ExplSyntaxOn
+% \int_step_inline:nnnn {0}{1}{1}
+%   {
+%     \parbox{3em}{
+%       \centering
+%       \footnotesize
+%       \tl_clear:N \l_tmpa_tl
+%       \tl_set:Nn \l_tmpa_tl { \int_eval:n{#1} }
+%       \l_tmpa_tl \\[-0.8em]
+%       \yao[jinzhi=dec,type=liangyi,scale=1.6]{\l_tmpa_tl}\\ [-0.6em] 
+%       \yi_int_to_bin:nn{1}{\l_tmpa_tl}
+%     }~
+%   }
+%     \ExplSyntaxOff
+%   \end{center}
+% 
+%   \item 四象：
+%   \begin{center}
+%     \ExplSyntaxOn
+% \int_step_inline:nnn {1}{4}
+%   {
+%     \parbox{3em}{
+%       \centering
+%       \footnotesize
+%       \tl_clear:N \l_tmpa_tl
+%       \tl_set:Nn \l_tmpa_tl { \int_eval:n{#1-1} }
+%       \l_tmpa_tl \\[-0.6em]
+%       \yao[jinzhi=dec,type=sixiang,scale=1.6]{\l_tmpa_tl}\\[-0.6em] 
+%       \yi_int_to_bin:nn{2}{\l_tmpa_tl}
+%     }~
+%   }
+%     \ExplSyntaxOff
+%   \end{center}
+%   \item 八卦：
+%   \begin{center}
+%     \ExplSyntaxOn
+% \int_step_inline:nnn {1}{8}
+%   {
+%     \parbox{3em}{
+%       \centering
+%       \footnotesize
+%       \tl_clear:N \l_tmpa_tl
+%       \tl_set:Nn \l_tmpa_tl { \int_eval:n{#1-1} }
+%       \l_tmpa_tl \\[-0.2em]
+%       \yao[jinzhi=dec,type=bagua,scale=1.6]{\l_tmpa_tl}\\ [-0.6em]
+%       \yi_int_to_bin:nn{3}{\l_tmpa_tl}
+%     }~
+%   }
+%     \ExplSyntaxOff
+%   \end{center}
+% 
+%   \item 重卦：
+%   \begin{center}
+%     \ExplSyntaxOn
+% \int_step_variable:nnNn {1}{8}\i 
+%   {
+%     \noindent
+%     \int_step_variable:nnNn {1}{8}\j
+%       {
+%         \parbox{3em}{
+%             \centering
+%             \footnotesize
+%             \tl_clear:N \l_tmpa_tl
+%             \tl_set:Nn \l_tmpa_tl { \int_eval:n{(\i-1)*8+(\j-1)} }
+%             \l_tmpa_tl \\ 
+%             \yao[jinzhi=dec,type=chonggua,scale=1.6]{\l_tmpa_tl}\\[-0.6em] 
+%             \yi_int_to_bin:nn{4}{\l_tmpa_tl}
+%         }~
+%       } \\[0.6em]
+%   }
+%     \ExplSyntaxOff
+%   \end{center}
+% \end{enumerate}
+%
+% \subsubsection{爻的几何尺寸设置}\label{subsubssec:yaojihe}
+% \begin{function}{dim}
+%   \begin{syntax}
+%       dim = \Arg{键值列表}
+%       dim/\meta{key}=\meta{value}
+%   \end{syntax}
+%   该选项用于设置爻的几何尺寸。具体说明见下。
+% \end{function}
+% 
+% \begin{function}{dim/width}
+%   \begin{syntax}
+%     width = \Arg{爻宽}
+%   \end{syntax}
+%   设置爻的宽度，默认为1em。
+% \end{function}
+% 
+% \begin{function}{dim/height}
+%   \begin{syntax}
+%     height = \Arg{爻高}
+%   \end{syntax}
+%   设置爻的高度，默认为1pt。
+% \end{function}
+% 
+% \begin{function}{dim/vsep}
+%   \begin{syntax}
+%     vsep = \Arg{两爻的上下间距}
+%   \end{syntax}
+%   设置两爻之间的上下间距，默认为0.1em。
+% \end{function}
+% 
+% \begin{function}{dim/yingap}
+%   \begin{syntax}
+%     yingap = \Arg{阴爻中间的空白间隔}
+%   \end{syntax}
+%   设置阴爻中间的空白间隔，默认为0.1em。这一尺寸需小于爻的宽度，否则报错。
+% \end{function}
+% 
+% 关于爻的几何尺寸设置，举例说明如下：
+%   \begin{SideBySideExample}
+%     \yao[
+%       dim/width = 2em,
+%       dim/height = 2pt,
+%       dim/vsep = 0.2em,
+%       dim/yingap = 0.2em
+%     ]{011}
+%     \qquad
+%     \yao[
+%       dim = {
+%         width = 1em,
+%         height = 0.4pt,
+%         vsep = 0.2em,
+%         yingap = 0.3em
+%       }
+%     ]{101}
+%   \end{SideBySideExample}
+%
+% \subsubsection{由爻所组成符号的几何变换}\label{subsubssec:yaojihebian}
+%
+% \begin{function}{scale}
+%   \begin{syntax}
+%     scale = \{\meta{水平缩放因子},\meta{垂直缩放因子}\}
+%     scale = \Arg{缩放因子}
+%   \end{syntax}
+%   该选项用于控制由爻所组成符号的缩放。一共有两种书写形式，第一种形式用于在水平和垂直方向各自放大指定倍数（两数之间用一个英文逗号分隔）；第二种形式则用于整体放大指定倍数。举例说明如下：
+% \end{function}
+%   \begin{SideBySideExample}
+%     \yao[scale={2,1}]{110101}~
+%     \yao[scale=2]{110101}
+%   \end{SideBySideExample}
+% 
+% \begin{function}{rotate}
+%   \begin{syntax}
+%     rotate = \Arg{旋转角度}
+%   \end{syntax}
+%   该选项会让由爻所组成的符号绕其参考点（基点）旋转指定的\meta{旋转角度}，角度为正是逆时针旋转，为负则是顺时针旋转。举例说明如下：
+% \end{function}
+%   \begin{SideBySideExample}
+%     \yao[rotate=30]{111}~
+%     \yao[rotate=-30]{111}
+%   \end{SideBySideExample}
+%
+% \subsubsection{动爻的选取与标注}\label{subsubssec:dongyao}
+% 
+% \begin{function}{dongyao}
+%   \begin{syntax}
+%     dongyao = \Arg{键值列表}
+%     dongyao/\meta{key}=\meta{value}
+%   \end{syntax}
+%   该选项用于设置动爻的选取与标注。具体说明见下。
+% \end{function}
+% 
+% \begin{function}{dongyao/mark}
+%   \begin{syntax}
+%     mark = <\TFF>
+%   \end{syntax}
+%   选择是否标注动爻，默认不标注。这是一个布尔型选项，其只能在\opt{true}和\opt{false}中取值，当设置其值为真，即“|mark = true|”时，其中的“|= true|”可以省略。
+% \end{function}
+% 
+% \begin{function}{dongyao/num}
+%   \begin{syntax}
+%     num = \Arg{爻位置编号组成的逗号分隔列表}
+%   \end{syntax}
+%   选取所要标注的动爻，若为阳爻，则在其右方（或左方）标注一个“$\circ$”；若为阴爻，则在其右方（或左方）标注一个“$\times$”。其中，\emph{爻的位置编号}遵循这样的取数原则：由下而上，初爻为1, 二爻为2, $\cdots$, 上爻为6，并要求：$1\le$爻的位置编号$\le$爻总数。举例说明如下：
+% \end{function}
+%   \begin{SideBySideExample}
+%     \yao[
+%       scale= 4,
+%       dongyao = {
+%         mark,
+%         num = {3}
+%       }
+%     ]{110011}
+%     \qquad
+%     \yao[
+%       scale = {4,6},
+%       dongyao = {
+%         mark,
+%         num = {1, 2, 3, 4, 5, 6}
+%       }
+%     ]{110011}
+%   \end{SideBySideExample}
+% 
+% \begin{function}{dongyao/basic-linewidth}
+%   \begin{syntax}
+%     basic-linewidth = \Arg{基本线宽}
+%   \end{syntax}
+%   设置动爻标注符号的基本线宽，默认为0.1pt。真实线宽$=$爻的垂直缩放因子$\times$基本线宽，在给定基本线宽后，动爻标注符号的真实线宽就会随着爻在垂直方向的缩放而改变。举例说明如下：
+% \end{function}
+%   \begin{SideBySideExample}
+%     \yao[
+%       scale = {3,2},
+%       dongyao = {
+%         mark,
+%         num = {1, 3, 5},
+%         basic-linewidth = 0.2pt 
+%       }
+%     ]{010011}\quad
+%     \yao[
+%       scale = {3,4},
+%       dongyao = {
+%         mark,
+%         num = {1, 3, 5},
+%         basic-linewidth = 0.2pt
+%       }
+%     ]{010011}\quad
+%     \yao[
+%       scale = 6,
+%       dongyao = {
+%         mark,
+%         num = {1, 3, 5},
+%         basic-linewidth = 0.2pt
+%       }
+%     ]{010011}
+%   \end{SideBySideExample}
+% 
+% \begin{function}{dongyao/hspace}
+%   \begin{syntax}
+%     hspace = \Arg{水平偏移量}
+%   \end{syntax}
+%   设置动爻标注符号与动爻的水平间距，默认为0.1em。举例说明如下：
+% \end{function}
+%   \begin{SideBySideExample}
+%     \yao[
+%       scale = 6,
+%       dongyao = {
+%         mark,
+%         num = {1,2,3,4,5,6},
+%         hspace = 1em
+%       }
+%     ]{111101}
+%     \par\vspace{2em}
+%     \yao[
+%       jinzhi = dec,
+%       type = chonggua,
+%       scale = 6,
+%       dongyao = {
+%         mark,
+%         num = {1,2,3,4,5,6},
+%         hspace = 2em
+%       }
+%     ]{61}
+%   \end{SideBySideExample}
+% 
+% \begin{function}{dongyao/node}
+%   \begin{syntax}
+%     node = <left|(right)>
+%   \end{syntax}
+%   选择将动爻标注符号标注于动爻的左方或右方，默认标注于右方。举例说明如下：
+% \end{function}
+%   \begin{SideBySideExample}
+%     \yao[
+%       scale = 6,
+%       dongyao = {
+%         mark,
+%         num = {1,3,5},
+%         hspace = 0.6em,
+%         node = left
+%       }
+%     ]{001010}
+%   \end{SideBySideExample}
+% 
+% \begin{function}{dongyao/liuyao-limit}
+%   \begin{syntax}
+%     liuyao-limit = <\TTF>
+%   \end{syntax}
+%   开启或关闭六爻重卦才可取动爻的限制，默认开启。一般来说，只有六爻重卦才会涉及到取动爻（从而画其变卦），故而有此限制，于是在选取并标注动爻时需满足如下两个条件之一：
+%  \begin{enumerate}
+%    \item “\opt{jinzhi=bin}” \textcolor{red}{+} “爻数$=$ 6”
+%    \item “\opt{jinzhi=dec}” \textcolor{red}{+} “\opt{type=sixiang}”
+%  \end{enumerate}
+% 
+%  但考虑到用户可能需要更灵活的绘制需求，比如绘制类似图\ref{fig:nwgua}所示的图像，该图由两个八卦组合而成，在绘图过程中就需要对单个三爻八卦进行动爻标注。此开关正是为了满足诸如此类需求而提供，用于取消对六爻重卦才能取动爻的限制。若无特殊需求，不建议关闭此限制，以免无意画出一些不恰当的动爻标注图像。举例说明如下：
+% \end{function}
+% \begin{figure}[h]
+%   \centering
+%   \begin{tikzpicture}
+%     \node[anchor=west](a) at (0,0) {\yao[scale=4,]{101}};
+%     \node[anchor=west](b) at (0,1) {\yao[scale=4,dongyao={mark,liuyao-limit=false,num=2,hspace=0.6em}]{010}};
+%     \draw[dashed](-2,0.56)--(2.1,0.56);
+%     \node[anchor=east](a) at (0,0) {\small\kaishu 下卦（内挂）};
+%     \node[anchor=east](b) at (0,1) {\small\kaishu 上卦（外挂）};
+%   \end{tikzpicture}
+%   \caption{\label{fig:nwgua}}
+% \end{figure}
+%
+%   \begin{SideBySideExample}
+%     \yao[
+%       scale=3,
+%       dongyao = {
+%         liuyao-limit = false,
+%         mark,
+%         num = {1}
+%       }
+%     ]{1}
+%     \qquad
+%     \yao[
+%       scale=3,
+%       dongyao = {
+%         liuyao-limit = false,
+%         mark,
+%         num = {1,2,3}
+%       }
+%     ]{110}
+%   \end{SideBySideExample}
+%
+% \subsection{用名称绘制两仪、四象、八卦、重卦}
+% 
+% 以下四个命令可以通过指定由爻所组成符号的中文名而直接绘制相应符号。这几个命令的可选参数所提供的\meta{选项列表}用于设置爻的几何尺寸与爻所组成符号的几何变换，详见\ref{subsubssec:yaojihe}和\ref{subsubssec:yaojihebian}节；此外还可设置动爻的选取与标注，对于\tn{liangyi}、\tn{sixiang}、\tn{bagua}而言，只有设置了“\opt{dongyao/liuyao-limit=false}”才可完成此操作，对于\tn{chonggua}而言则无限制，详见\ref{subsubssec:dongyao}节。具体说明见下。
+% \begin{function}{\liangyi}
+%   \begin{syntax}
+%     \tn{liangyi}\oarg{选项列表}\Arg{两仪名}
+%   \end{syntax}
+% 通过必选参数所指定的两仪中文名来绘制两仪。其中，\meta{两仪名}只能为：\textbf{阴爻}或\textbf{阳爻}二者之一。举例说明如下：
+%\end{function}
+%   \begin{SideBySideExample}
+%     \liangyi[scale=2]{阴爻}~
+%     \liangyi[scale=2]{阳爻}
+%   \end{SideBySideExample}
+% 
+% \begin{function}{\sixiang}
+%   \begin{syntax}
+%     \tn{sixiang}\oarg{选项列表}\Arg{四象名}
+%   \end{syntax}
+%   通过必选参数所指定的四象中文名来绘制四象。其中，\meta{四象名}只能为：\textbf{太阴}、\textbf{少阳}、\textbf{少阴}、\textbf{太阳}这四者之一。举例说明如下：
+% \end{function}
+%   \begin{SideBySideExample}
+%     \sixiang[scale=2]{太阴}~
+%     \sixiang[scale=2]{少阳}~
+%     \sixiang[scale=2]{少阴}~
+%     \sixiang[scale=2]{太阳}
+%   \end{SideBySideExample}
+% 
+% \begin{function}{\bagua}
+%   \begin{syntax}
+%     \tn{bagua}\oarg{选项列表}\Arg{八卦名}
+%   \end{syntax}
+%   通过必选参数所指定的八卦中文名来绘制八卦。其中，\meta{八卦名}只能为：\textbf{乾}、\textbf{兑}、\textbf{离}、\textbf{震}、\textbf{巽}、\textbf{坎}、\textbf{艮}、\textbf{坤}这八者之一。举例说明如下：
+%\end{function}
+%   \begin{SideBySideExample}
+%     \bagua[scale=2]{乾}~
+%     \bagua[scale=2]{兑}~
+%     \bagua[scale=2]{离}~
+%     \bagua[scale=2]{震}~
+%     \bagua[scale=2]{巽}~
+%     \bagua[scale=2]{坎}~
+%     \bagua[scale=2]{艮}~
+%     \bagua[scale=2]{坤}
+%   \end{SideBySideExample}
+% 
+% \begin{function}{\chonggua}
+%   \begin{syntax}
+%     \tn{chonggua}\oarg{选项列表}\Arg{重卦名}
+%   \end{syntax}
+%   通过必选参数所指定的重卦中文名来绘制重卦。其中，允许的\meta{重卦名}共64个，可采用朱熹所写的《卦名次序歌》来帮助记忆（双字名已用黑体加粗）：
+%   \begin{center}
+%     \begin{pinyinscope}[hsep={.5em plus .1em},]
+%       \par 乾坤\xpinyin{屯}{zhun1}蒙需讼师，比\textbf{小\xpinyin{畜}{xu4}}\xpinyin{兮}{}履泰\xpinyin{否}{pi3}，
+%       \par \textbf{同人}\textbf{大有}谦豫随，蛊临观\xpinyin{兮}{}\textbf{噬\xpinyin{嗑}{he2}}\xpinyin{贲}{bi4}，
+%       \par 剥复\textbf{无妄}\textbf{大\xpinyin{畜}{xu4}}颐，\textbf{大过}坎离\xpinyin{三十备}{}。
+%       \par 咸恒遁\xpinyin{兮及}{}\textbf{大壮}，晋\xpinyin{与}{}\textbf{明夷}\textbf{家人}睽，
+%       \par 蹇解损益夬姤萃，升困井革鼎震\xpinyin{继}{}，
+%       \par \xpinyin{艮}{gen4}渐\textbf{归妹}丰旅巽，兑涣节\xpinyin{兮}{}\textbf{中孚}\xpinyin{至}{}，
+%       \par \textbf{小过}\textbf{既济}\xpinyin{兼}{}\textbf{未济}，\xpinyin{是为下经三十四}{}。 
+%     \end{pinyinscope}
+%   \end{center}
+%   举例说明如下：
+% \end{function}
+%   \begin{SideBySideExample}
+%     \chonggua[scale=2]{乾}~
+%     \chonggua[scale=2]{坤}~
+%     \chonggua[scale=2]{屯}~
+%     \chonggua[scale=2]{蒙}~
+%     \chonggua[scale=2]{需}~
+%     \chonggua[scale=2]{讼}~
+%     \chonggua[scale=2]{师}
+%     \par\vspace{2em}
+%     \chonggua[scale=2]{比}~
+%     \chonggua[scale=2]{小畜}~
+%     \chonggua[scale=2]{履}~
+%     \chonggua[scale=2]{泰}~
+%     \chonggua[scale=2]{否}~
+%     \chonggua[scale=2]{同人}~
+%     \chonggua[scale=2]{大有}
+%   \end{SideBySideExample}
+%
+% \paragraph{由爻组成的各类型符号所对应的中文名}中文名标注于各符号上方：
+% \begin{enumerate}
+%   \item 两仪：
+% \begin{center}
+%   \ExplSyntaxOn
+%   \clist_clear:N \l_tmpa_clist
+%   \clist_set:Nn \l_tmpa_clist { 阴爻, 阳爻 }
+%   \yisetup{yao/scale=2}
+%   \int_step_inline:nnn {1}{2}
+%     {
+%       \parbox{3em}{
+%         \kaishu
+%         \centering
+%         \clist_item:Nn \l_tmpa_clist {#1}\\[-0.8em]
+%         \tl_set:Ne \l_tmpa_tl 
+%           {
+%             \prop_item:Ne \c__yi_liangyi_prop 
+%               { 
+%                 \clist_item:Nn \l_tmpa_clist {#1}
+%               } 
+%           }
+%         \expandafter\yao\expandafter{ \l_tmpa_tl} 
+%       }~
+%     }
+%   \ExplSyntaxOff
+% \end{center}
+% 
+%   \item 四象：
+%   \begin{center}
+%     \ExplSyntaxOn
+%     \clist_clear:N \l_tmpa_clist
+%     \clist_set:Nn \l_tmpa_clist { 太阴, 少阳, 少阴, 太阳 }
+%     \yisetup{yao/scale=2}
+%     \int_step_inline:nnn {1}{4}
+%       {
+%         \parbox{3em}{
+%           \kaishu
+%           \centering
+%           \clist_item:Nn \l_tmpa_clist {#1}\\[-0.6em]
+%           \tl_set:Ne \l_tmpa_tl 
+%             {
+%               \prop_item:Ne \c__yi_sixiang_prop 
+%                 { 
+%                   \clist_item:Nn \l_tmpa_clist {#1}
+%                 } 
+%             }
+%           \expandafter\yao\expandafter{ \l_tmpa_tl} 
+%         }~
+%       }
+%     \ExplSyntaxOff
+%   \end{center}
+%   
+%   \item 八卦：
+%   \begin{center}
+%     \ExplSyntaxOn
+%     \clist_clear:N \l_tmpa_clist
+%     \clist_set:Nn \l_tmpa_clist { 乾, 兑, 离, 震, 巽, 坎, 艮, 坤 }
+%     \yisetup{yao/scale=2}
+%     \int_step_inline:nnn {1}{8}
+%       {
+%         \parbox{3em}{
+%           \kaishu
+%           \centering
+%           \clist_item:Nn \l_tmpa_clist {#1}\\[-0.4em]
+%           \tl_set:Ne \l_tmpa_tl 
+%             {
+%               \prop_item:Ne \c__yi_bagua_prop
+%                 { 
+%                   \clist_item:Nn \l_tmpa_clist {#1}
+%                 } 
+%             }
+%           \expandafter\yao\expandafter{ \l_tmpa_tl} 
+%         }~
+%       }
+%     \ExplSyntaxOff
+%   \end{center}
+%   \item 重卦：
+%   \begin{center}
+%     \ExplSyntaxOn
+%     \clist_clear:N \l_tmpa_clist
+%     \clist_set:Nn \l_tmpa_clist { 乾, 坤, 屯, 蒙, 需, 讼, 师, 比, 小畜, 履, 泰, 否, 同人, 大有, 谦, 豫, 随, 蛊, 临, 观, 噬嗑, 贲, 剥, 复, 无妄, 大畜, 颐, 大过, 坎, 离, 咸, 恒, 遁, 大壮, 晋, 明夷, 家人, 睽, 蹇, 解, 损, 益, 夬, 姤, 萃, 升, 困, 井, 革, 鼎, 震, 艮, 渐, 归妹, 丰, 旅, 巽, 兑, 涣, 节, 中孚, 小过, 既济, 未济 }
+%     \yisetup{yao/scale=2}
+% \int_step_variable:nnNn {1}{8}\i 
+%   {
+%     \int_step_variable:nnNn {1}{8}\j
+%       {
+%         \noindent
+%         \parbox{3em}{
+%             \centering
+%             \kaishu
+%             \tl_clear:N \l_tmpa_tl
+%             \tl_clear:N \l_tmpb_tl
+%             \tl_set:Nn \l_tmpa_tl { \int_eval:n{(\i-1)*8+(\j)} }
+%             \clist_item:Nn \l_tmpa_clist { \l_tmpa_tl }\\
+%             \tl_set:Ne \l_tmpb_tl 
+%               {
+%                 \prop_item:Ne \c__yi_chonggua_prop
+%                   { 
+%                     \clist_item:Nn \l_tmpa_clist {\l_tmpa_tl}
+%                   } 
+%               }
+%           \expandafter\yao\expandafter{ \l_tmpb_tl} 
+%         }~
+%       } \\[0.6em]
+%   }
+%     \ExplSyntaxOff
+%   \end{center}
+% \end{enumerate}
+%
+% \subsection{绘制太极八卦图}
+% 
+% \begin{function}{\taijibagua}
+%   \begin{syntax}
+%     \tn{taijibagua}\oarg{选项列表}\Arg{xiantian/houtian}
+%   \end{syntax}
+% 用于绘制先天/后天太极八卦图，其带有一个可选参数和一个必选参数。
+% 
+% 必选参数只能为：\opt{xiantian}或\opt{houtian}二者之一，用于指明所要绘制的是先天八卦图还是后天八卦图。比如使用如下代码将会分别得到图\ref{fig:xtbg}和图\ref{fig:htbg}：
+% \begin{verbatim}[frame=single,gobble=3]
+%   \taijibagua{xiantian} % 先天太极八卦图
+%   \taijibagua{houtian} % 后天太极八卦图
+% \end{verbatim}
+% 
+% 可选参数由一系列逗号分隔列表组成，列表中各项都具有\meta{key}=\meta{value}的形式。对于同一项，后面的设置会覆盖前面的设置。下面将分别介绍可选参数内提供的选项设置。
+% \end{function}
+% 
+% \begin{figure}[h]
+%   \centering
+%   \begin{minipage}{.4\linewidth}
+%     \centering
+%     \taijibagua[gscale=0.8]{xiantian}
+%     \caption{先天太极八卦图}
+%     \label{fig:xtbg}
+%   \end{minipage}
+%   \quad
+%   \begin{minipage}{.4\linewidth}
+%     \centering
+%     \taijibagua[gscale=0.8]{houtian}
+%     \caption{后天太极八卦图}
+%     \label{fig:htbg}
+%   \end{minipage}
+% \end{figure}
+%
+% \subsubsection{整体缩放}\label{subsubsec:tjbggs}
+% \begin{function}{gscale}
+%   \begin{syntax}
+%     gscale = \Arg{缩放因子}
+%   \end{syntax}
+%   用于控制太极八卦图的整体缩放，其默认值为1。举例说明如下：
+% \end{function}
+%   \begin{SideBySideExample}
+%     \taijibagua[gscale=0.3]{xiantian}\qquad
+%     \taijibagua[gscale=0.6]{xiantian}
+%   \end{SideBySideExample}
+%
+% \subsubsection{八卦名、各卦对应的先天/后天数、方位设置}\label{subsubsec:tjbgnnf}
+% 
+% \paragraph{八卦名设置}~\hypertarget{para:name}{}
+% \begin{function}{name}
+%   \begin{syntax}
+%     name = \Arg{键值列表}
+%     name/\meta{key}=\meta{value}
+%   \end{syntax}
+%   用于设置八卦名的格式以及是否显示八卦名。具体说明见下。
+% \end{function}
+% 
+% \begin{function}{name/show}
+%   \begin{syntax}
+%     show = <\TFF>
+%   \end{syntax}
+%   选择是否显示八卦名称，默认不显示。这是一个布尔型选项，其只能在\opt{true}和\opt{false}中取值，当设置其值为真，即“|show = true|”时，其中的“|= true|”可以省略。以下几种写法是等效的，均可以得到图\ref{fig:nameshow}：
+% \end{function}
+% 
+% \begin{verbatim}[frame=single,gobble=3]
+%   \taijibagua[gscale=0.8,name/show]{xiantian}
+%   \taijibagua[gscale=0.8,name/show=true]{xiantian}
+%   \taijibagua[gscale=0.8,name={show}]{xiantian}
+%   \taijibagua[gscale=0.8,name={show=true}]{xiantian}
+% \end{verbatim}
+% 
+% \begin{figure}[h]
+%   \centering
+%   \taijibagua[
+%      gscale = 0.8,
+%      name   = show
+%   ]{xiantian}
+%   \caption{显示卦名}
+%   \label{fig:nameshow}
+% \end{figure}
+% 
+% \begin{function}{name/format}
+%   \begin{syntax}
+%     format = \meta{格式}
+%   \end{syntax}
+%   设置八卦名称的格式，默认加粗。该选项接收的是一系列声明式命令，但允许最后一个命令是非声明式的，这时八卦名会作为该命令的最后一个参数而被其所处理。比如使用如下代码，将会得到图\ref{fig:namefmt}：
+% \end{function}
+% \begin{verbatim}[frame=single,gobble=3]
+%   \taijibagua[
+%     name = {
+%       show,
+%       % 八卦名作为\textcolor命令所吸收的第二个参数而被设置为蓝色
+%       format = \itshape\textcolor{blue} 
+%     },
+%     gscale = 0.8
+%   ]{houtian}
+% \end{verbatim}
+% 
+% \begin{figure}[h]
+%   \centering
+%     \taijibagua[
+%       name = {
+%         show,
+%         format = \itshape\textcolor{blue} 
+%       },
+%       gscale = 0.8
+%     ]{houtian}
+%   \caption{八卦名格式设置}
+%   \label{fig:namefmt}
+% \end{figure}
+%
+% \paragraph{各卦对应的先天/后天数设置}~\hypertarget{para:number}{}
+% \begin{function}{number}
+%   \begin{syntax}
+%     number = \Arg{键值列表}
+%     number/\meta{key}=\meta{value}
+%   \end{syntax}
+%   用于设置先天/后天八卦对应的先天/后天数。具体说明见下。
+% \end{function}
+% 
+% \begin{function}{number/show}
+%   \begin{syntax}
+%     show = <\TFF>
+%   \end{syntax}
+%   选择是否显示先天/后天八卦对应的先天/后天数，默认不显示。同样，这是一个布尔型选项，在设置其值为真时，“|show = true|”中的“|= true|”可以省略。
+% \end{function}
+% 
+% \begin{function}{number/format}
+%   \begin{syntax}
+%     format = \meta{格式}
+%   \end{syntax}
+%   设置各卦对应的先天/后天数的格式，无默认值。该选项接收的是一系列声明式命令，但允许最后一个命令是非声明式的，这时先天/后天数会作为该命令的最后一个参数而被其所处理。比如使用如下代码，将会得到图\ref{fig:numfmt}：
+% \end{function}
+% \begin{verbatim}[frame=single,gobble=3]
+%   % 导言区载入zhnumber宏包：\usepackage{zhnumber}
+%   \taijibagua[
+%     number = {
+%       show,
+%       % 先天数作为\zhnumber命令的必选参数而被其以中文格式输出：
+%       format = \color{purple}\zhnumber
+%     },
+%     gscale = 0.8
+%   ]{xiantian}
+% \end{verbatim}
+% 
+% \begin{figure}[h]
+%   \centering
+%     \taijibagua[
+%       number = {
+%         show,
+%         format = \color{purple}\zhnumber
+%       },
+%       gscale = 0.8
+%      ]{xiantian}
+%   \caption{先天数格式设置}
+%   \label{fig:numfmt}
+% \end{figure}
+% 
+% \paragraph{方位设置}~\hypertarget{para:fangwei}{}
+% \begin{function}{fangwei}
+%   \begin{syntax}
+%     fangwei = \Arg{键值列表}
+%     fangwei/\meta{key}=\meta{value}
+%   \end{syntax}
+%   用于设置方位的格式以及是否显示方位。具体说明见下。
+% \end{function}
+% 
+% \begin{function}{fangwei/show}
+%   \begin{syntax}
+%     show = <\TFF>
+%   \end{syntax}
+%   选择是否显示方位，默认不显示。同样，这是一个布尔型选项，在设置其值为真时，“|show = true|”中的“|= true|”可以省略。
+% \end{function}
+% 
+% \begin{function}{fangwei/format}
+%   \begin{syntax}
+%     format = \meta{格式}
+%   \end{syntax}
+%   设置方位的格式，默认为意大利体。该选项接收的是一系列声明式命令，但允许最后一个命令是非声明式的，这时方位会作为该命令的最后一个参数而被其所处理。比如使用如下代码，将会得到图\ref{fig:fwfmt}：
+% \end{function}
+% \begin{verbatim}[frame=single,gobble=3]
+%   \taijibagua[
+%     name/show,
+%     number/show,
+%     fangwei = {
+%       show,
+%       % 方位作为\textcolor命令所吸收的第二个参数而被设置为紫色
+%       format = \itshape\textcolor{purple}
+%     },
+%     gscale = 0.8
+%   ]{xiantian}
+% \end{verbatim}
+%
+% \begin{figure}[h]
+%   \centering
+%     \taijibagua[
+%       name/show,
+%       number/show,
+%       fangwei = {
+%         show,
+%         format = \itshape\textcolor{purple}
+%       },
+%       gscale = 0.8
+%     ]{xiantian}
+%   \caption{方位格式设置}
+%   \label{fig:fwfmt}
+% \end{figure}
+%
+% \subsubsection{太极图设置}
+% \begin{function}{taiji}
+%   \begin{syntax}
+%     taiji = \Arg{键值列表}
+%     taiji/\meta{key}=\meta{value}
+%   \end{syntax}
+%   用于设置太极图的几何尺寸与几何变换（缩放、旋转、水平镜像反射）。可设置的选项包括：\opt{ dim/linewidth}, \opt{dim/Radius}, \opt{dim/radius}, \opt{scale}, \opt{rotate}, \opt{reflect}，这些选项继承了前面对太极图相关设置的定义，参见\ref{subsubssec:taijihe}和\ref{subsubssec:taijihebian}节。具体说明见下。
+% \end{function}
+% 
+% \paragraph{太极图的几何尺寸设置}~
+% \begin{function}{taiji/dim}
+%   \begin{syntax}
+%     dim = \Arg{键值列表}
+%     dim/\meta{key}=\meta{value}
+%   \end{syntax}
+%   设置太极图的几何尺寸，可设置的尺寸信息见下。
+% \end{function}
+% 
+% \begin{function}{taiji/dim/Radius}
+%   \begin{syntax}
+%       Radius = \Arg{太极图半径}
+%   \end{syntax}
+%   详见\ref{subsubssec:taijihe}节。
+% \end{function}
+% 
+% \begin{function}{taiji/dim/radius}
+%   \begin{syntax}
+%       radius = \Arg{阴阳鱼眼半径}
+%   \end{syntax}
+%   详见\ref{subsubssec:taijihe}节。
+% \end{function}
+% 
+% \begin{function}{taiji/dim/linewidth}
+%   \begin{syntax}
+%       linewidth = \Arg{线宽}
+%   \end{syntax}
+%   详见\ref{subsubssec:taijihe}节。
+% \end{function}
+% 
+% \paragraph{太极图的几何变换}~
+% \begin{function}{taiji/scale}
+%   \begin{syntax}
+%       scale = \Arg{缩放因子}
+%   \end{syntax}
+%   该选项用于控制太极八卦图中太极图的缩放。详见\ref{subsubssec:taijihebian}节。举例说明如下：
+% \end{function}
+% \begin{verbatim}[frame=single,gobble=3]
+%     % 如果不想要太极图，可设置taiji/scale=0
+%     \taijibagua[taiji/scale=0, name/show]{houtian}
+% \end{verbatim}
+% 
+% \begin{function}{taiji/rotate}
+%   \begin{syntax}
+%       rotate = \Arg{旋转角度}
+%   \end{syntax}
+%   该选项用于控制太极八卦图中太极图的旋转。详见\ref{subsubssec:taijihebian}节。
+% \end{function}
+% 
+% \begin{function}{taiji/reflect}
+%   \begin{syntax}
+%     reflect = <\TFF>
+%   \end{syntax}
+%   该选项用于控制太极八卦图中太极图是否做水平镜像反射。详见\ref{subsubssec:taijihebian}节。
+% \end{function}
+%
+% \subsubsection{八卦设置}
+% \begin{function}{bagua}
+%   \begin{syntax}
+%     bagua = \Arg{键值列表}
+%     bagua/\meta{key}=\meta{value}
+%   \end{syntax}
+%   用于设置八卦的尺寸与缩放。可设置的选项包括：\opt{dim/width}, \opt{dim/heigh}, \opt{dim/vsep}, \opt{dim/yingap}, \opt{scale}，这些选项继承了前面对爻的相关设置的定义，参见\ref{subsubssec:yaojihe}和\ref{subsubssec:yaojihebian}节。具体说明见下。
+% \end{function}
+% 
+% \paragraph{八卦的几何尺寸设置}~
+% \begin{function}{bagua/dim}
+%   \begin{syntax}
+%     dim = \Arg{键值列表}
+%     dim/\meta{key}=\meta{value}
+%   \end{syntax}
+%   设置八卦的几何尺寸，可设置的尺寸信息见下。
+% \end{function}
+% 
+% \begin{function}{bagua/dim/width}
+%   \begin{syntax}
+%     width = \Arg{爻宽}
+%   \end{syntax}
+%   详见\ref{subsubssec:yaojihe}节。
+% \end{function}
+% 
+% \begin{function}{bagua/dim/height}
+%   \begin{syntax}
+%     height = \Arg{爻高}
+%   \end{syntax}
+%   详见\ref{subsubssec:yaojihe}节。
+% \end{function}
+% 
+% \begin{function}{bagua/dim/vsep}
+%   \begin{syntax}
+%     vsep = \Arg{两爻的上下间距}
+%   \end{syntax}
+%   详见\ref{subsubssec:yaojihe}节。
+% \end{function}
+% 
+% \begin{function}{bagua/dim/yingap}
+%   \begin{syntax}
+%     yingap = \Arg{阴爻中间的空白间隔}
+%   \end{syntax}
+%   详见\ref{subsubssec:yaojihe}节。
+% \end{function}
+% 
+% \paragraph{八卦的缩放}~
+% \begin{function}{bagua/scale}
+%   \begin{syntax}
+%     scale = \{\meta{水平缩放因子},\meta{垂直缩放因子}\}
+%     scale = \Arg{缩放因子}
+%   \end{syntax}
+%   该选项用于控制太极八卦图中八卦的缩放。详见\ref{subsubssec:yaojihebian}节。
+% \end{function}
+% 
+% 关于对太极八卦图中八卦的设置，举例说明如下：
+%   \begin{SideBySideExample}
+%     \begin{center}
+%       \taijibagua[
+%         bagua = {
+%           dim = {
+%             width = 1.8em,
+%             yingap = 0.2em
+%           },
+%           scale = {2,4}
+%         },
+%         gscale = 0.8
+%       ]{xiantian}
+%     \end{center}
+%   \end{SideBySideExample}
+%
+% \subsection{\tn{yisetup}参数设置}
+% \begin{function}{\yisetup}
+%   \begin{syntax}
+%     \tn{yisetup}\Arg{键值列表}
+%   \end{syntax}
+%   用于在导言区（全局影响）或文档中（局部影响）设置太极图、由爻所组成符号以及太极八卦图的格式。可以设置的选项见下。
+% \end{function}
+% 
+% \paragraph{对太极图的设置}以下这些设置不会影响到太极八卦图中的太极。
+% \begin{function}{taiji}
+%   \begin{syntax}
+%     taiji = \Arg{键值列表}
+%     taiji/\meta{key}=\meta{value}
+%   \end{syntax}
+%   用于设置太极图的尺寸与几何变换（缩放、镜像反射）。具体见下。
+% \end{function}
+% 
+% \begin{function}{taiji/scale}
+%   \begin{syntax}
+%       scale = \Arg{缩放因子}
+%   \end{syntax}
+%   详见\ref{subsubssec:taijihebian}节。
+% \end{function}
+% 
+% \begin{function}{taiji/reflect}
+%   \begin{syntax}
+%     reflect = <\TFF>
+%   \end{syntax}
+%   详见\ref{subsubssec:taijihebian}节。
+% \end{function}
+% 
+% \begin{function}{taiji/dim}
+%   \begin{syntax}
+%     dim = \Arg{键值列表}
+%     dim/\meta{key}=\meta{value}
+%   \end{syntax}
+%   设置太极图的几何尺寸，可设置的尺寸信息见下。
+% \end{function}
+% 
+% \begin{function}{taiji/dim/Radius}
+%   \begin{syntax}
+%       Radius = \Arg{太极图半径}
+%   \end{syntax}
+%   详见\ref{subsubssec:taijihe}节。
+% \end{function}
+% 
+% \begin{function}{taiji/dim/radius}
+%   \begin{syntax}
+%       radius = \Arg{阴阳鱼眼半径}
+%   \end{syntax}
+%   详见\ref{subsubssec:taijihe}节。
+% \end{function}
+% 
+% \begin{function}{taiji/dim/linewidth}
+%   \begin{syntax}
+%       linewidth = \Arg{线宽}
+%   \end{syntax}
+%   详见\ref{subsubssec:taijihe}节。
+% \end{function}
+% 
+% 
+% \paragraph{对爻及爻所组成符号的设置}以下这些设置不会影响到太极八卦图中的八卦。
+% \begin{function}{yao}
+%   \begin{syntax}
+%     yao = \Arg{键值列表}
+%     yao/\meta{key}=\meta{value}
+%   \end{syntax}
+%   用于设置爻的尺寸与由爻所组成符号的缩放。具体见下。
+% \end{function}
+% 
+% \begin{function}{yao/scale}
+%   \begin{syntax}
+%     scale = \{\meta{水平缩放因子},\meta{垂直缩放因子}\}
+%     scale = \Arg{缩放因子}
+%   \end{syntax}
+%   该选项用于设置由爻所组成符号的缩放。详见\ref{subsubssec:yaojihebian}节。
+% \end{function}
+% 
+% \begin{function}{yao/dim}
+%   \begin{syntax}
+%     dim = \Arg{键值列表}
+%     dim/\meta{key}=\meta{value}
+%   \end{syntax}
+%   设置爻的几何尺寸，可设置的尺寸信息见下。
+% \end{function}
+% 
+% \begin{function}{yao/dim/width}
+%   \begin{syntax}
+%     width = \Arg{爻宽}
+%   \end{syntax}
+%   详见\ref{subsubssec:yaojihe}节。
+% \end{function}
+% 
+% \begin{function}{yao/dim/height}
+%   \begin{syntax}
+%     height = \Arg{爻高}
+%   \end{syntax}
+%   详见\ref{subsubssec:yaojihe}节。
+% \end{function}
+% 
+% \begin{function}{yao/dim/vsep}
+%   \begin{syntax}
+%     vsep = \Arg{两爻的上下间距}
+%   \end{syntax}
+%   详见\ref{subsubssec:yaojihe}节。
+% \end{function}
+% 
+% \begin{function}{yao/dim/yingap}
+%   \begin{syntax}
+%     yingap = \Arg{阴爻中间的空白间隔}
+%   \end{syntax}
+%   详见\ref{subsubssec:yaojihe}节。
+% \end{function}
+% 
+% \begin{function}{yao/dongyao}
+%   \begin{syntax}
+%     dongyao = \Arg{键值列表}
+%     dongyao/\meta{key}=\meta{value}
+%   \end{syntax}
+%   用于设置动爻的标注。可设置的选项见下。
+% \end{function}
+% 
+% \begin{function}{yao/dongyao/basic-linewidth}
+%   \begin{syntax}
+%     basic-linewidth = \Arg{基本线宽}
+%   \end{syntax}
+%   详见\ref{subsubssec:dongyao}节。
+% \end{function}
+% 
+% 
+% \begin{function}{yao/dongyao/hspace}
+%   \begin{syntax}
+%     hspace = \Arg{水平偏移量}
+%   \end{syntax}
+%   详见\ref{subsubssec:dongyao}节。
+% \end{function}
+% 
+% 
+% \begin{function}{yao/dongyao/node}
+%   \begin{syntax}
+%     node = <left|(right)>
+%   \end{syntax}
+%   详见\ref{subsubssec:dongyao}节。
+% \end{function}
+% 
+% 
+% \begin{function}{yao/dongyao/liuyao-limit}
+%   \begin{syntax}
+%     liuyao-limit = <\TTF>
+%   \end{syntax}
+%   详见\ref{subsubssec:dongyao}节。
+% \end{function}
+% 
+% \paragraph{对太极八卦图的设置}~
+% \begin{function}{taiji-bagua}
+%   \begin{syntax}
+%     taiji-bagua = \Arg{键值列表}
+%     taiji-bagua/\meta{key}=\meta{value}
+%   \end{syntax}
+%   用于设置太极八卦图的整体缩放，是否显示卦名、各卦对应的先天/后天数、方位以及它们的格式。具体见下。
+% \end{function}
+% 
+% \begin{function}{taiji-bagua/gscale}
+%   \begin{syntax}
+%     gscale = \Arg{缩放因子}
+%   \end{syntax}
+%   用于设置太极八卦图的整体缩放。详见\ref{subsubsec:tjbggs}节。
+% \end{function}
+% 
+% \begin{function}{taiji-bagua/name}
+%   \begin{syntax}
+%     name = \Arg{键值列表}
+%     name/\meta{key}=\meta{value}
+%   \end{syntax}
+%   用于设置八卦名的格式以及是否显示八卦名。具体说明见下。
+% \end{function}
+% 
+% \begin{function}{taiji-bagua/name/show}
+%   \begin{syntax}
+%     show = <\TFF>
+%   \end{syntax}
+% 详见\hyperlink{para:name}{八卦名设置}部分。
+% \end{function}
+% 
+% \begin{function}{taiji-bagua/name/format}
+%   \begin{syntax}
+%     format = \meta{格式}
+%   \end{syntax}
+%   详见\hyperlink{para:name}{八卦名设置}部分。
+% \end{function}
+% 
+% \begin{function}{taiji-bagua/number}
+%   \begin{syntax}
+%     number = \Arg{键值列表}
+%     number/\meta{key}=\meta{value}
+%   \end{syntax}
+%   用于设置先天/后天八卦对应的先天/后天数。具体说明见下。
+% \end{function}
+% 
+% \begin{function}{taiji-bagua/number/show}
+%   \begin{syntax}
+%     show = <\TFF>
+%   \end{syntax}
+%   详见\hyperlink{para:number}{各卦对应的先天/后天数设置}部分。
+% \end{function}
+% 
+% \begin{function}{taiji-bagua/number/format}
+%   \begin{syntax}
+%     format = \meta{格式}
+%   \end{syntax}
+%   详见\hyperlink{para:number}{各卦对应的先天/后天数设置}部分。
+% \end{function}
+% 
+% \begin{function}{taiji-bagua/fangwei}
+%   \begin{syntax}
+%     fangwei = \Arg{键值列表}
+%     fangwei/\meta{key}=\meta{value}
+%   \end{syntax}
+%   用于设置方位的格式以及是否显示方位。具体说明见下。
+% \end{function}
+% 
+% \begin{function}{taiji-bagua/fangwei/show}
+%   \begin{syntax}
+%     show = <\TFF>
+%   \end{syntax}
+%   详见\hyperlink{para:fangwei}{方位设置}部分。
+% \end{function}
+% 
+% \begin{function}{taiji-bagua/fangwei/format}
+%   \begin{syntax}
+%     format = \meta{格式}
+%   \end{syntax}
+%   详见\hyperlink{para:fangwei}{方位设置}部分。
+% \end{function}
+%
+% \section{彩蛋}
+% 
+% 该宏包还根据《梅花易数》一书中记载的起卦方法定制了一个可用于在起卦得数（或得卦）后直接输出相应本卦及其互卦、变卦的命令。具体说明见下。
+% 
+% \begin{function}{\qigua}
+%   \begin{syntax}
+%     \tn{qigua}\oarg{选项列表}\Arg{上卦数}\Arg{下卦数}\Arg{动爻数}
+%   \end{syntax}
+%   该命令会根据输入的三个数而得出相应的本卦及其互卦、变卦，并在本卦上标出动爻。其中，第一个必选参数接收的是\emph{上卦取数}，第二个必选参数接收的是\emph{下卦取数}（卜筮的每一卦均由上下两卦组成，故有上下两数）；第三个必选参数接收的则是\emph{动爻取数}（动爻会自动在本卦上进行标注）。比如使用代码 |qigua{6}{19}{8}|，将会得到图\ref{fig:qiguaexample}。
+% \end{function}
+% \begin{figure}[h]
+%   \centering
+%   \qigua{6}{19}{8}
+%   \caption{\label{fig:qiguaexample}}
+% \end{figure}
+% 上图中，最左边的是本卦，中间的是其互卦，最右边的是其变卦，各自含义如下：
+% \begin{description}
+%   \item[本卦：]表示事之始，所占得的卦就是本卦。
+%   \item[互卦：]表示事之发展过程，其由主卦去掉初爻与上爻，以剩余部分的上三爻为上卦，下三爻为下卦（也就是取本卦的三、四、五爻为上卦，二、三、四爻为下卦）组合而成的新的重卦。另外注意：“乾坤无互，互其变卦”。
+%   \item[变卦：]表示事之终，由本卦反转动爻阴阳所得。
+% \end{description}
+% 
+% 对于该命令的可选参数而言，其内提供的选项可用于控制本、互、变卦的几何尺寸与两卦间的水平距离，还可对动爻进行控制。具体说明见下。
+% 
+% \begin{function}{hspace}
+%   \begin{syntax}
+%     hspace = \Arg{尺寸}
+%   \end{syntax}
+%   用于设置本卦与互卦之间的距离，默认为2em。而互卦与变卦之间的距离则是：本卦与互卦间设定的距离$+$动爻标注符号与本卦间的距离$+$动爻标注符号的水平尺寸（这样做是出于排版美观的考虑）。举例说明如下:
+% \end{function}
+%   \begin{SideBySideExample}
+%     \qigua[hspace=4em]{6}{6}{6}
+%   \end{SideBySideExample}
+% 
+% \begin{function}{yao}
+%   \begin{syntax}
+%     yao = \Arg{键值列表}
+%     yao/\meta{key}=\meta{value}
+%   \end{syntax}
+%   用于设置爻的几何尺寸、重卦的几何变化以及与动爻标注符号相关的尺寸。具体见下。
+% \end{function}
+% 
+% \begin{function}{yao/scale}
+%   \begin{syntax}
+%     scale = \{\meta{水平缩放因子},\meta{垂直缩放因子}\}
+%     scale = \Arg{缩放因子}
+%   \end{syntax}
+%   该选项用于设置重卦的缩放。详见\ref{subsubssec:yaojihebian}节。
+% \end{function}
+% 
+% \begin{function}{yao/rotate}
+%   \begin{syntax}
+%     rotate = \Arg{旋转角度}
+%   \end{syntax}
+%   该选项用于设置重卦的旋转。详见\ref{subsubssec:yaojihebian}节。
+% \end{function}
+% 
+% \begin{function}{yao/dim}
+%   \begin{syntax}
+%     dim = \Arg{键值列表}
+%     dim/\meta{key}=\meta{value}
+%   \end{syntax}
+%   设置爻的几何尺寸，可设置的尺寸信息见下。
+% \end{function}
+% 
+% \begin{function}{yao/dim/width}
+%   \begin{syntax}
+%     width = \Arg{爻宽}
+%   \end{syntax}
+%   详见\ref{subsubssec:yaojihe}节。
+% \end{function}
+% 
+% \begin{function}{yao/dim/height}
+%   \begin{syntax}
+%     height = \Arg{爻高}
+%   \end{syntax}
+%   详见\ref{subsubssec:yaojihe}节。
+% \end{function}
+% 
+% \begin{function}{yao/dim/vsep}
+%   \begin{syntax}
+%     vsep = \Arg{两爻的上下间距}
+%   \end{syntax}
+%   详见\ref{subsubssec:yaojihe}节。
+% \end{function}
+% 
+% \begin{function}{yao/dim/yingap}
+%   \begin{syntax}
+%     yingap = \Arg{阴爻中间的空白间隔}
+%   \end{syntax}
+%   详见\ref{subsubssec:yaojihe}节。
+% \end{function}
+% 
+% \begin{function}{yao/dongyao}
+%   \begin{syntax}
+%     dongyao = \Arg{键值列表}
+%     dongyao/\meta{key}=\meta{value}
+%   \end{syntax}
+%   用于设置动爻的标注。可设置的选项见下。
+% \end{function}
+% 
+% \begin{function}{yao/dongyao/basic-linewidth}
+%   \begin{syntax}
+%     basic-linewidth = \Arg{基本线宽}
+%   \end{syntax}
+%   详见\ref{subsubssec:dongyao}节。
+% \end{function}
+% 
+% \begin{function}{yao/dongyao/hspace}
+%   \begin{syntax}
+%     hspace = \Arg{水平偏移量}
+%   \end{syntax}
+%   详见\ref{subsubssec:dongyao}节。
+% \end{function}
+% 
+% \begin{function}{yao/dongyao/node}
+%   \begin{syntax}
+%     node = <left|(right)>
+%   \end{syntax}
+%   详见\ref{subsubssec:dongyao}节。
+% \end{function}
+%
+% 接下来再补充介绍一下《梅花易数》中记载的一些起卦方法，在此之前需要知道一个起卦时所遵循的计算公式：“卦以八除，爻以六除”，具体来说就是：
+% \begin{description}
+%     \item [卦以八除：]卦以八除是因为共有八个三爻卦，对于8以内的数字，直接以该数字作卦（采用先天八卦数：\yao{111}乾1, \yao{110}兑2, \yao{101}离3, \yao{100}震4, \yao{011}巽5, \yao{010}坎6, \yao{001}艮7, \yao{000}坤8）；对于大于8的数字，以该数字除以8所得余数作卦，若余数为0（除尽）则取余数为8，即坤卦。
+%     \item [爻以六除：]爻以六除是因为每卦有六爻，对于6以内的数字，直接以该数字取动爻（1为初爻，2为二爻，3为三爻，4为4爻，5为五爻，6为上爻）；对于大于6的数字，以该数字除以6所得余数作为动爻，若余数为0（除尽）则取余数为6，即上爻为动爻。
+% \end{description}
+% 该宏包的\tn{qigua}命令正是遵循这一原则而创建的。
+% 另外还需注意，《梅花易数》在卦数上用的是\textbf{先天八卦数}，而在方位上用的则是\textbf{后天八卦方位}，如图\ref{fig:xtbgshu}和图\ref{fig:htbgfw}所示：
+% \begin{figure}[h]
+%   \centering
+%   \begin{minipage}{.4\linewidth}
+%     \centering
+%     \taijibagua[gscale=0.6,name/show,number/show]{xiantian}
+%     \caption{先天八卦数}
+%     \label{fig:xtbgshu}
+%   \end{minipage}
+%   \quad
+%   \begin{minipage}{.4\linewidth}
+%     \centering
+%     \taijibagua[gscale=0.6,name/show,fangwei/show]{houtian}
+%     \caption{后天八卦方位}
+%     \label{fig:htbgfw}
+%   \end{minipage}
+% \end{figure}
+%
+% 至于如何起卦，根据得数（或得卦）的先后可分为两种：先天起卦法和后天起卦法（也称后天端法），具体见下（以下公式“$\div 8$”表示“卦以八除”，“$\div 6$”表示“爻以六除”）：
+%
+% \begin{enumerate}
+%   \item \textbf{先天起卦法：}先得数，后得卦
+% \begin{enumerate}
+%   \item \textbf{年月日时起例：} 
+%   \begin{itemize}
+%     \item (年地支数+月数+日数)$\div $ 8, 所得余数作为上卦；
+%     \item (年地支数+月数+日数+时辰数)$\div $ 8, 所得余数作为下卦；
+%     \item 再以：(年地支数+月数+日数+时辰数)$\div $ 6, 所得余数取动爻。
+%   \end{itemize}
+%   {\par\kaishu 补充（时占法需以农历为准）：}
+%   \begin{description}
+%     \item[年、时起数：] 子1、丑2、寅3、卯4、辰5、巳6、午7、未8、申9，酉10、戌11、亥12
+%     \item[月起数：] 正月1，二月2、三月3、四月4、五月5、六月6、七月7、八月8、九月9、十月10、十一月11、十二月12
+%     \item[日起数：] 初一1、初二2、初三3、... 、三十30
+%   \end{description} 
+%   
+%   \item \textbf{物数占：}见可数之物
+%   \begin{itemize}
+%     \item 物体数$\div $ 8, 所得余数作为上卦；
+%     \item 起卦时辰数$\div $ 8, 所得余数作为下卦；
+%     \item (物体数+起卦时辰数)$\div $ 6, 所得余数取动爻。
+%   \end{itemize}
+%   \item \textbf{声音占：}凡闻声音，如动物鸣叫声、敲击声、叩门声等
+%   \begin{enumerate}
+%     \item 声音连续：
+%     \begin{itemize}
+%       \item 声音数$\div $ 8, 所得余数作为上卦；
+%       \item 起卦时辰数$\div $ 8, 所得余数作为下卦；
+%       \item (声音数+起卦时辰数)$\div $ 6, 所得余数取动爻。
+%     \end{itemize}
+%     \item 声音不连续（有明显间隔）:
+%     \begin{itemize}
+%       \item 初闻声音数$\div $ 8, 所得余数作为上卦；
+%       \item 末闻声音数$\div $ 8, 所得余数作为下卦；
+%       \item (初闻声音数+末闻声音数+起卦时辰数)$\div $ 6, 所得余数取动爻。
+%     \end{itemize}
+%   \end{enumerate}
+%   
+%   \item \textbf{字占（一字占）：}
+%   \begin{enumerate}
+%     \item 上下结构：
+%     \begin{itemize}
+%       \item 取上边笔画数为上卦；
+%       \item 取下边笔画数为下卦；
+%       \item (上边笔画数+下边笔画数)取动爻。
+%     \end{itemize}
+%     \item 左右结构：
+%     \begin{itemize}
+%       \item 取左边笔画数为上卦；
+%       \item 取右边笔画数为下卦；
+%       \item (左边笔画数+右边笔画数)取动爻。
+%     \end{itemize}
+%     \item 无对半分（上下或左右）结构，如上中下结构、左中右结构、一体字
+%     \begin{enumerate}
+%       \item 笔画数为一：一字象征太极未判，混沌不明，不能起卦。
+%       \item 笔画数可对半分：平分笔画数作为上下卦，笔画总数取动爻。
+%       \item 笔画数不可对半分：少一笔画数为上卦，多一笔画数为下卦，取“天清地浊”之义；笔画总数取动爻。
+%     \end{enumerate}
+%   \end{enumerate}
+%^^A   \item \textbf{报数占：}
+%^^A   \begin{enumerate}
+%^^A     \item 得两数
+%^^A     \begin{itemize}
+%^^A       \item 第一个数$\div $ 8, 所得余数作为上卦；
+%^^A       \item 第二个数$\div $ 8, 所得余数作为下卦；
+%^^A       \item (第一个数+第二个数)$\div $ 6, 所得余数取动爻。
+%^^A     \end{itemize}
+%^^A     \item 得三数
+%^^A     \begin{itemize}
+%^^A       \item 第一个数$\div $ 8, 所得余数作为上卦；
+%^^A       \item 第二个数$\div $ 8, 所得余数作为下卦；
+%^^A       \item 第三个数$\div $ 6, 所得余数取动爻。
+%^^A     \end{itemize}
+%^^A   \end{enumerate}
+% \end{enumerate}
+% 
+%   \item \textbf{后天起卦法：}先得卦，后得数
+%   \begin{itemize}
+%     \item 以物为上卦
+%     \item 以物所在方位（后天八卦方位）为下卦
+%     \item (物的卦数+方位的卦数+起卦\textcolor{red}{时辰数})$\div $ 6, 所得余数取动爻。
+%  \end{itemize}
+%   {\kaishu
+%  比如：《梅花易数》一书中记载的鸡悲鸣占：“甲申日卯时，有鸡鸣于乾方，声极悲怆，因占之。”
+% \par 鸡属巽，其所在方位为乾方（西北方），则以巽\bagua{巽}作为上卦，乾\bagua{乾}作为下卦，得风天小畜卦\chonggua{小畜}。巽的先天数为5，乾的先天数为1，卯时为4，$(5+1+4)\div 6=1\cdots4$，故知第四爻是动爻，最终可得下面的卦象（用命令|\qigua{5}{1}{10}|生成）：
+% \begin{center}
+%  \qigua{5}{1}{10}
+% \end{center}
+% 查《周易》爻辞，小畜六四，说的是“有孚，血去惕出，无咎”。以血推之，割鸡之义。从卦象上看，小畜卦第四爻阴变阳，则小畜卦变乾卦，其互卦则是上离下兑；互卦离火克体卦乾金，卦中又巽木生离火，有烹饪的卦象。又因为起卦的时候是站着的，故应验时间应以成数十为准（“凡占卜，克应之期看自己之动静，以决事之迟速，故行则应速，以遂成卦之数中分而取其半也；坐则事应迟，当倍其成卦之数而定之也；立则半迟半速，止以成卦之数定之可也。虽然如是，又在变通”）。
+% \par “断曰：此鸡十日当烹。果十日客至，有烹鸡之验。”
+%   }
+% \end{enumerate}
+% 
+% 用先天起卦法来推断事物的吉凶，通常只根据卦象的生克比和来推测，不常用《周易》的卦爻辞（因为先天起卦法在未成卦之前，先得卦数，以数起卦，用的是先天易数理论，其在《周易》成书前就已存在，因此不必使用《周易》卦爻辞。当然易理是相通的，这里只是说可以不用而不是不能用）；而用后天起卦法来推断事物的吉凶，除看卦象的生克比和关系外，还兼用《周易》的卦爻辞（后天起卦法是先得卦，以卦起数，用的是《周易》成书后的易理）。
+% 
+% 综上可知，按《梅花易数》中给的“起卦公式”，只要取得三个数就能得到一个卦象，这也是该宏包提供的\tn{qigua}命令必须要有三个必选参数的原因。
+%
+% \end{documentation}
+%
+% \StopEventually{}
+%
+% \begin{implementation}
+%
+% \section{代码实现}
+%
+%    \begin{macrocode}
+%<*package>
+%<@@=yi>
+%    \end{macrocode}
+%
+% 检查 \LaTeX3 编程环境。
+%    \begin{macrocode}
+\RequirePackage { l3draw }
+\msg_new:nnn { yi } { l3-too-old }
+  {
+    Package~ "#1"~ is~ too~ old. \\\\
+    Please~ update~ an~ up-to-date~ version~ of~ the~ bundles \\
+    "l3kernel"~ and~ "l3packages"~ using~ your~ TeX~ package \\
+    manager~ or~ from~ CTAN.
+  }
+\clist_map_inline:nn
+  { expl3, l3draw }
+  {
+    \IfPackageAtLeastTF {#1} { 2023/05/10 }
+      { } { \msg_error:nnn { yi } { l3-too-old } {#1} }
+  }
+%    \end{macrocode}
+%
+% \subsection{内部变量}
+%
+% \begin{variable}
+%   {
+%     \l_@@_tmpa_tl,
+%     \l_@@_tmpb_tl,
+%     \l_@@_tmpa_seq,
+%     \l_@@_tmpb_seq,
+%     \l_@@_tmp_coffin
+%   }
+% 临时变量
+%    \begin{macrocode}
+\tl_clear_new:N  \l_@@_tmpa_tl
+\tl_clear_new:N  \l_@@_tmpb_tl
+\seq_clear_new:N \l_@@_tmpa_seq
+\seq_clear_new:N \l_@@_tmpb_seq
+\coffin_new:N    \l_@@_tmp_coffin
+%    \end{macrocode}
+% \end{variable}
+%
+% \begin{variable}
+%   {
+%     \l_@@_type_int,
+%     \l_@@_jinzhi_int,
+%     \l_@@_taiji_bagua_type_int
+%   }
+% 符号类型：1两仪、2四象、3八卦、4重卦\\
+% 进制：1二进制、2十进制\\
+% 八卦类型：1先天八卦、2后天八卦
+%    \begin{macrocode}
+\int_new:N \l_@@_type_int 
+\int_new:N \l_@@_jinzhi_int
+\int_new:N \l_@@_taiji_bagua_type_int
+%    \end{macrocode}
+% \end{variable}
+%
+% \begin{variable}
+%   {
+%     \l_@@_yinyao_coffin,
+%     \l_@@_yangyao_coffin,
+%     \l_@@_dongyao_yang_coffin,
+%     \l_@@_dongyao_yin_coffin,
+%     \l_@@_dongyao_adjust_coffin
+%   }
+% 阴阳爻匣子、动爻标注符号匣子、动爻水平位置调整匣子
+%    \begin{macrocode}
+\coffin_new:N \l_@@_yinyao_coffin
+\coffin_new:N \l_@@_yangyao_coffin
+\coffin_new:N \l_@@_dongyao_yang_coffin
+\coffin_new:N \l_@@_dongyao_yin_coffin
+\coffin_new:N \l_@@_dongyao_adjust_coffin
+%    \end{macrocode}
+% \end{variable}
+%
+% \begin{variable}
+%   {
+%     \l_@@_dongyao_mark_point_tl,
+%     \l_@@_dongyao_point_tl,
+%     \l_@@_dongyao_point_x_dim,
+%     \l_@@_dongyao_point_y_dim,
+%     \l_@@_dongyao_node_right_bool
+%   }
+% 动爻标注位置相关：\\
+% 动爻、动爻标注符号左右方位确定(|l|, |r|)\\
+% 动爻标注符号位置确定(|x|, |y|)\\
+% 判断将动爻标注符号标注于动爻左侧或右侧
+%    \begin{macrocode}
+\tl_clear_new:N \l_@@_dongyao_mark_point_tl
+\tl_clear_new:N \l_@@_dongyao_point_tl
+\dim_new:N      \l_@@_dongyao_point_x_dim
+\dim_new:N      \l_@@_dongyao_point_y_dim
+\bool_new:N     \l_@@_dongyao_node_right_bool
+%    \end{macrocode}
+% \end{variable}
+%
+% \subsection{爻的绘制}
+%
+% \subsubsection*{符号类型}
+%
+% \begin{macro}{type}
+% 设置由爻所组成符号的类型：1为两仪、2为四象、3为八卦、4为重卦。
+%    \begin{macrocode}
+\keys_define:nn { yi/yao }
+  {
+    type .choice:,
+    type .choices:nn = 
+      { liangyi, sixiang, bagua, chonggua }
+      { \int_set_eq:NN \l_@@_type_int \l_keys_choice_int },
+    type .value_required:n = true
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsubsection*{进制}
+%
+% \begin{macro}{jinzhi}
+% 设置在画由爻所组成符号时选择的进制，默认为二进制。
+%    \begin{macrocode}
+\keys_define:nn { yi/yao } 
+  {
+    jinzhi .choice:,
+    jinzhi .choices:nn = 
+      { bin, dec }
+      { \int_set_eq:NN \l_@@_jinzhi_int \l_keys_choice_int },
+    jinzhi .initial:n  = bin
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsubsection*{爻的几何尺寸}
+%
+% \begin{macro}{dim/width, dim/height, dim/vsep, dim/yingap}
+% 爻的宽度、高度；两爻的上下间距；阴爻中间的空白间隔设置。
+%    \begin{macrocode}
+\clist_map_inline:nn
+  { width, height, vsep, yingap }
+  { 
+    \keys_define:nn { yi/yao/dim }  
+      { 
+        #1 .dim_set:c = { l_@@_yao_ #1 _dim },
+        #1 .groups:n  = { second }
+      } 
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% 爻几何尺寸的初始设置。
+%    \begin{macrocode}
+\keys_set:nn { yi/yao/dim }
+  {
+    width  = 1em,
+    height = 1pt,
+    vsep   = 0.1em,
+    yingap = 0.1em
+  }
+%    \end{macrocode}
+%
+% \subsubsection*{爻的几何变换}
+%
+%    \begin{macrocode}
+\keys_define:nn { yi/yao }
+  {
+%    \end{macrocode}
+%
+% \begin{macro}{scale}
+% 设置由爻所组成符号的缩放。
+%    \begin{macrocode}
+    scale  .clist_set:N = \l_@@_yao_xyscale_clist,
+    scale  .initial:n   = {1,1},
+    scale  .groups:n    = { third },
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{rotate}
+% 设置由爻所组成符号的旋转。
+%    \begin{macrocode}
+    rotate .fp_set:N    = \l_@@_yao_rotate_fp,
+    rotate .initial:n   = {0},
+    rotate .groups:n    = { fourth }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{variable}{\l_@@_yao_xscale_fp, \l_@@_yao_yscale_fp}
+% 新建存储爻水平、垂直缩放因子的浮点型变量。
+%    \begin{macrocode}
+\fp_new:N  \l_@@_yao_xscale_fp
+\fp_new:N  \l_@@_yao_yscale_fp
+%    \end{macrocode} 
+% \end{variable}
+%
+% \begin{macro}{\@@_yao_get_xyscale:n }
+% 用于获取爻的水平、垂直缩放因子，并将其存放于\cs{l_@@_yao_xscale_fp}、\cs{l_@@_yao_yscale_fp}中。
+% \begin{arguments}
+%   \item 取值只能为：x、y或xy三者之一
+% \end{arguments}
+%    \begin{macrocode}
+\cs_new_protected:Npn \@@_yao_get_xyscale:n #1
+  {
+    \str_case:nn {#1}
+      {
+        { x  } { \use_i:nn  }
+        { y  } { \use_ii:nn }
+        { xy } { \use:nn    }
+      }
+    {
+      \fp_set:Nn \l_@@_yao_xscale_fp
+        {
+          \int_case:nn { \clist_count:N \l_@@_yao_xyscale_clist }
+            {
+              {1}
+              { \clist_item:Nn \l_@@_yao_xyscale_clist {1} } 
+              {2}
+              { \clist_item:Nn \l_@@_yao_xyscale_clist {1} }
+            }
+        }
+    }
+    {
+      \fp_set:Nn \l_@@_yao_yscale_fp
+        {
+          \int_case:nn { \clist_count:N \l_@@_yao_xyscale_clist }
+            {
+              {1}
+              { \clist_item:Nn \l_@@_yao_xyscale_clist {1} } 
+              {2}
+              { \clist_item:Nn \l_@@_yao_xyscale_clist {2} }
+            }
+        }
+    }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsubsection*{动爻的选取与标注}
+%    \begin{macrocode}
+\keys_define:nn { yi/yao/dongyao }
+  {
+%    \end{macrocode}
+%
+% \begin{macro}{dongyao/mark}
+% 设置是否取动爻。
+%    \begin{macrocode}
+    mark           .bool_set:N   = \l_@@_dongyao_mark_bool,
+    mark           .default:n    = true,
+    mark           .initial:n    = false,
+    mark           .groups:n     = { fifth },
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{dongyao/num}
+% 设置想要取的动爻数（1-6）。
+%    \begin{macrocode}
+    num            .clist_set:N  = \l_@@_dongyao_num_clist,
+    num            .groups:n     = { fifth },
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{dongyao/liuyao-limit}
+% 设置六爻重卦才可取动爻的限制。
+%    \begin{macrocode}
+    liuyao-limit    .bool_set:N  = \l_@@_dongyao_liuyao_limit_bool,
+    liuyao-limit    .default:n   = true,
+    liuyao-limit    .initial:n   = true,
+    liuyao-limit    .groups:n    = { sixth },
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{dongyao/basic-linewidth}
+% 设置动爻标注符号的基本线宽。其中，总线宽$=$缩放因子$\times$基本线宽
+%    \begin{macrocode}
+    basic-linewidth .dim_set:N   = \l_@@_dongyao_basic_linewidth_dim,
+    basic-linewidth .initial:n   = { 0.1pt },
+    basic-linewidth .groups:n    = { sixth },
+%    \end{macrocode}
+% \end{macro}
+% 
+% \begin{macro}{dongyao/hspace}
+% 设置动爻标注符号与动爻的水平间距。
+%    \begin{macrocode}
+    hspace         .dim_set:N    = \l_@@_dongyao_hspace_dim,
+    hspace         .initial:n    = { 0.1em },
+    hspace         .groups:n     = { sixth },
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{dongyao/node}
+% 设置动爻标注符号标注于动爻的左侧还是右侧，默认标注于右方。
+%    \begin{macrocode}
+    node .choice:,
+    node/left  .code:n = 
+      {
+        \tl_set:Nn  \l_@@_dongyao_mark_point_tl {r}
+        \tl_set:Nn  \l_@@_dongyao_point_tl  {l}
+        \bool_set_false:N \l_@@_dongyao_node_right_bool
+      },
+    node/right .code:n = 
+      {
+        \tl_set:Nn  \l_@@_dongyao_mark_point_tl {l}
+        \tl_set:Nn  \l_@@_dongyao_point_tl  {r}
+        \bool_set_true:N \l_@@_dongyao_node_right_bool
+      },
+    node .initial:n = right,
+    node .groups:n  = { sixth }
+  }  
+%    \end{macrocode}
+% \end{macro}
+%
+% 定义元（meta）键值对：
+%    \begin{macrocode}
+\keys_define:nn { yi }
+  {
+    yao         .meta:nn  = { yi/yao }         {#1},
+    yao         .groups:n = { first  },
+    yao/dim     .meta:nn  = { yi/yao/dim }     {#1},
+    yao/dim     .groups:n = { second },
+    yao/dongyao .meta:nn  = { yi/yao/dongyao } {#1},
+    yao/dongyao .groups:n = { first  }
+  }
+%    \end{macrocode}
+%
+% \subsubsection*{进制转换}
+%
+% \par 交互信息定义
+%    \begin{macrocode}
+\msg_new:nnn { yi } { yao/unfit-dimension } 
+  { #1~>=~#2 }
+\msg_new:nnn { yi } { yao/wrong-liangyi } 
+  { The~number~needs~to~be:~0~<=~liangyi~<=~1 }
+\msg_new:nnn { yi } { yao/wrong-sixiang } 
+  { The~number~needs~to~be:~0~<=~sixiang~<=3 }
+\msg_new:nnn { yi } { yao/wrong-bagua } 
+  { The~number~needs~to~be:~0~<=~bagua~<=~7 }
+\msg_new:nnn { yi } { yao/wrong-chonggua }
+  { The~number~needs~to~be:~0~<=~chonggua~<=~63 }
+%    \end{macrocode}
+%
+% \begin{macro}{\@@_int_to_bin:nn, \yi_int_to_bin:nn}
+% 用于将十进制数转换为二进制数，并根据不同情况补0。
+% \begin{arguments}
+% \item 符号类型代表的编码，1为两仪、2为四象、3为八卦、4为重卦。
+% \item 十进制数
+% \end{arguments}
+%    \begin{macrocode}
+\cs_new:Npn \@@_int_to_bin:nn #1#2 
+  {
+    \tl_set:Ne \l_@@_tmpa_tl { \int_to_bin:n {#2} }
+    \seq_set_split:Nne \l_@@_tmpb_seq {} { \l_@@_tmpa_tl }
+    \int_case:nn {#1}
+      {
+        {1}
+        { 
+          \int_compare:nTF { 0 <= #2 <= 1 }
+            { \tl_set_eq:NN \l_@@_tmpb_tl \l_@@_tmpa_tl }
+            { \msg_error:nnn {yi} { yao/wrong-liangyi } }
+        }
+        {2}
+        {
+          \int_compare:nTF { 0 <= #2 <= 3 }
+            {
+              \int_case:nnF { \seq_count:N \l_@@_tmpb_seq }
+                {
+                  {1}{ \tl_set:Ne \l_@@_tmpb_tl { 0 \l_@@_tmpa_tl } }
+                }
+                { \tl_set_eq:NN \l_@@_tmpb_tl \l_@@_tmpa_tl }
+            }
+            { \msg_error:nnn {yi} { yao/wrong-sixiang } }
+          
+        }
+        {3}
+        {
+          \int_compare:nTF { 0 <= #2 <= 7 }
+            {
+              \int_case:nnF { \seq_count:N \l_@@_tmpb_seq }
+                {
+                  {1}{ \tl_set:Ne \l_@@_tmpb_tl { 00 \l_@@_tmpa_tl } }
+                  {2}{ \tl_set:Ne \l_@@_tmpb_tl { 0  \l_@@_tmpa_tl } }
+                }
+                { \tl_set_eq:NN \l_@@_tmpb_tl \l_@@_tmpa_tl }
+            }
+            { \msg_error:nnn {yi} { yao/wrong-bagua } }
+          
+        }
+        {4}
+        {
+          \int_compare:nTF { 0 <= #2 <= 63 }
+            {
+              \int_case:nnF { \seq_count:N \l_@@_tmpb_seq }
+                {
+                  {1}{ \tl_set:Ne \l_@@_tmpb_tl { 00000 \l_@@_tmpa_tl } }
+                  {2}{ \tl_set:Ne \l_@@_tmpb_tl { 0000  \l_@@_tmpa_tl } }
+                  {3}{ \tl_set:Ne \l_@@_tmpb_tl { 000   \l_@@_tmpa_tl } }
+                  {4}{ \tl_set:Ne \l_@@_tmpb_tl { 00    \l_@@_tmpa_tl } }
+                  {5}{ \tl_set:Ne \l_@@_tmpb_tl { 0     \l_@@_tmpa_tl } }
+                }
+                { \tl_set_eq:NN \l_@@_tmpb_tl \l_@@_tmpa_tl }
+            }
+            { \msg_error:nnn {yi} { yao/wrong-chonggua } }
+        }
+      }
+  }
+\cs_new:Npn \yi_int_to_bin:nn #1#2 
+  {
+    \@@_int_to_bin:nn {#1} {#2}
+    \l_@@_tmpb_tl 
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsubsection*{封装对各种匣子的创建}
+%
+% \begin{macro}{\@@_make_yinyao_coffin:nnn,}
+% 用于创建装有阴爻的匣子。其中，阴爻的间隙要小于爻宽，否则报错。
+% \begin{arguments}
+% \item 阴爻中间的空白间隔
+% \item 爻的宽度
+% \item 爻的高度
+% \end{arguments}
+%    \begin{macrocode}
+\cs_new_protected:Npn \@@_make_yinyao_coffin:nnn #1#2#3
+  {
+    \hcoffin_set:Nn \l_@@_yinyao_coffin
+      {
+        \dim_compare:nTF { #1 < #2 }
+          {
+            \dim_set:Nn \l_tmpa_dim { (#2-#1)/2 }
+          }
+          {
+            \msg_error:nnnn {yi} { yao/unfit-dimension } {#1} {#2}
+          }
+        \rule{ \l_tmpa_dim }{#3} \skip_horizontal:n {#1} \rule{ \l_tmpa_dim }{#3}   
+      }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_make_yangyao_coffin:nn,}
+% 用于创建装有阳爻的匣子。
+% \begin{arguments}
+% \item 爻的宽度
+% \item 爻的高度
+% \end{arguments}
+%    \begin{macrocode}
+\cs_new_protected:Npn \@@_make_yangyao_coffin:nn #1#2
+  {
+    \hcoffin_set:Nn \l_@@_yangyao_coffin
+      {
+        \rule{#1}{#2}
+      }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_make_dongyao_label_yang_coffin:nnn}
+% 用于创建装有标注动爻为阳的符号（圈）匣子。
+% \begin{arguments}
+% \item 缩放因子
+% \item 基本线宽(总线宽$=$缩放因子$\times$基本线宽)
+% \item 圈半径
+% \end{arguments}
+%    \begin{macrocode}
+\cs_new_protected:Npn \@@_make_dongyao_label_yang_coffin:nnn #1#2#3
+  {
+    \hcoffin_set:Nw \l_@@_dongyao_yang_coffin
+      \draw_begin:
+        \draw_transform_scale:n { #1 }
+        \draw_linewidth:n { #1 * #2 }
+        \draw_path_moveto:n  { 0 , 0 }
+        \draw_path_circle:nn { 0 , 0 } { #3 }
+        \draw_path_use_clear:n { stroke }
+      \draw_end:
+    \hcoffin_set_end:
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_make_dongyao_label_yin_coffin:nnn}
+% 用于创建装有标注动爻为阴的符号（叉）匣子。
+% \begin{arguments}
+% \item 缩放因子
+% \item 基本线宽(总线宽$=$缩放因子$\times$基本线宽)
+% \item 叉长宽（方形）
+% \end{arguments}
+%    \begin{macrocode}
+\cs_new_protected:Npn \@@_make_dongyao_label_yin_coffin:nnn #1#2#3
+  {
+    \hcoffin_set:Nw \l_@@_dongyao_yin_coffin
+      \draw_begin:
+        \draw_transform_scale:n { #1 }
+        \draw_linewidth:n { #1 * #2 }
+        \draw_path_moveto:n {  0 , 0  }
+        \draw_path_lineto:n { #3 , #3 }
+        \draw_path_moveto:n {  0 , #3 }
+        \draw_path_lineto:n { #3 , 0  }
+        \draw_path_use_clear:n { stroke }
+      \draw_end:
+    \hcoffin_set_end:
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsubsection*{动爻的选取与标注}
+%
+% \begin{macro}{\exp_args:NNnVNnV}
+% 用于后续展开盒子拼接函数。
+%    \begin{macrocode}
+\cs_new:Npn \exp_args:NNnVNnV { \::N \::n \::V \::N \::n \::V \::: }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_dongyao_liuyao_limit_bin_p:N}
+% 用于判断序列变量内存储的是否为二进制下的六爻。
+% \begin{arguments}
+%   \item 存有二进制数的序列变量
+% \end{arguments}
+%    \begin{macrocode}
+\prg_new_conditional:Npnn \@@_dongyao_liuyao_limit_bin:N #1 { p }
+  {
+    \bool_lazy_and:nnTF
+      { \int_compare_p:nNn { \l_@@_jinzhi_int } = {1} }
+      { \int_compare_p:nNn { \seq_count:N #1   } = {6} }
+      { \prg_return_true: } { \prg_return_false: }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_dongyao_liuyao_limit_dec_p:}
+% 用于判断对爻的设置是否为十进制下的重卦。
+%    \begin{macrocode}
+\prg_new_conditional:Npnn \@@_dongyao_liuyao_limit_dec: { p } 
+  {
+    \bool_lazy_and:nnTF
+      { \int_compare_p:nNn { \l_@@_jinzhi_int } = {2} }
+      { \int_compare_p:nNn { \l_@@_type_int   } = {4} }
+      { \prg_return_true: } { \prg_return_false: }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_dongyao_get:NNN}
+% 用于获取动爻并对其进行标注。
+% \begin{arguments}
+% \item 存有二进制数的序列变量
+% \item 六爻匣子变量
+% \item 需要获取的动爻组成的逗号分隔列表变量
+% \end{arguments}
+%    \begin{macrocode}
+\cs_new:Npn \@@_dongyao_get:NNN #1#2#3
+  {
+    \bool_if:NTF \l_@@_dongyao_liuyao_limit_bool
+%    \end{macrocode} 
+%
+% 十进制下的重卦或二进制下的六爻可取动爻。
+%    \begin{macrocode}
+      { \bool_lazy_or:nnT }
+%    \end{macrocode} 
+%
+% 解除限制。
+%    \begin{macrocode}
+      { \use_iii:nnn      } 
+%    \end{macrocode} 
+%
+% 判断画动爻的条件：重卦才可画，即十进制下的重卦或二进制下的六爻。
+%    \begin{macrocode}
+    { \@@_dongyao_liuyao_limit_dec_p:     }
+    { \@@_dongyao_liuyao_limit_bin_p:N #1 }
+    { 
+%    \end{macrocode} 
+%
+% 获取垂直缩放因子。
+%    \begin{macrocode}
+      \@@_yao_get_xyscale:n {y}
+%    \end{macrocode} 
+%
+%  创建阴爻标注符号匣子。
+%    \begin{macrocode}
+      \@@_make_dongyao_label_yin_coffin:nnn { \l_@@_yao_yscale_fp } 
+        { \l_@@_dongyao_basic_linewidth_dim } 
+        { 0.9 * \l_@@_yao_height_dim  }
+%    \end{macrocode} 
+%
+% 创建阳爻标注符号匣子。
+%    \begin{macrocode}
+      \@@_make_dongyao_label_yang_coffin:nnn { \l_@@_yao_yscale_fp } 
+        { \l_@@_dongyao_basic_linewidth_dim  } 
+        { 0.9*\l_@@_yao_height_dim / 2 }
+%    \end{macrocode} 
+%
+% 计算动爻与动爻标注符号之间的水平偏移量（六爻皆一致）。
+%    \begin{macrocode}
+      \bool_if:NTF \l_@@_dongyao_node_right_bool
+        {
+          \dim_set:Nn \l_@@_dongyao_point_x_dim { \l_@@_dongyao_hspace_dim  }
+        }
+        {
+          \dim_set:Nn \l_@@_dongyao_point_x_dim { -\l_@@_dongyao_hspace_dim }
+        }
+%    \end{macrocode} 
+%
+% 按位（1-6）取动爻，位置信息存储于逗号分隔列表变量|#3|中。
+%    \begin{macrocode}
+      \clist_map_inline:Nn #3
+        {
+%    \end{macrocode} 
+%
+% 计算动爻与动爻标注符号之间的垂直偏移量（各爻互不相同）。
+%    \begin{macrocode}
+          \dim_set:Nn \l_@@_dongyao_point_y_dim 
+            { 
+              \fp_to_dim:n 
+                { 
+                  \l_@@_yao_yscale_fp * ( ##1-1 ) * 
+                  ( \l_@@_yao_vsep_dim + \l_@@_yao_height_dim ) 
+                }
+            }
+%    \end{macrocode} 
+%
+% 判断给定位置的阴阳并组合相应的符号。
+%    \begin{macrocode}
+          \int_case:nn { \seq_item:Nn #1 { ##1 } }
+            {
+%    \end{macrocode} 
+%
+% 阴爻组合叉。
+%    \begin{macrocode}
+              {0}
+              {
+                \exp_args:NNnVNnV
+                  \coffin_attach:NnnNnnnn
+                    #2                         {b} { \l_@@_dongyao_point_tl      }
+                    \l_@@_dongyao_yin_coffin  {b} { \l_@@_dongyao_mark_point_tl }
+                    { \l_@@_dongyao_point_x_dim } { \l_@@_dongyao_point_y_dim   }
+              }
+%    \end{macrocode} 
+%
+% 阳爻组合圈。
+%    \begin{macrocode}
+              {1}
+              {
+                \exp_args:NNnVNnV
+                  \coffin_attach:NnnNnnnn
+                    #2                         {b} { \l_@@_dongyao_point_tl      }
+                    \l_@@_dongyao_yang_coffin {b} { \l_@@_dongyao_mark_point_tl }
+                    { \l_@@_dongyao_point_x_dim } { \l_@@_dongyao_point_y_dim   }
+              }
+            }
+        }
+%    \end{macrocode} 
+%
+% 调整附有动爻标注的六爻匣子，使其前后文本能够正常排版（也就是无重叠）。
+%    \begin{macrocode}
+      \hcoffin_set:Nn  \l_@@_dongyao_adjust_coffin 
+        {
+          \skip_horizontal:n 
+            {
+              \fp_to_dim:n 
+                { 
+                  \l_@@_dongyao_hspace_dim + 
+                  \l_@@_yao_yscale_fp * 0.9 * 
+                  \l_@@_yao_height_dim 
+                } 
+            }
+        }
+      \bool_if:NTF \l_@@_dongyao_node_right_bool
+        {
+          \coffin_join:NnnNnnnn
+            #2                           {b} {r}
+            \l_@@_dongyao_adjust_coffin {b} {l}
+            { 0pt }{ 0pt }
+        }
+        {
+          \coffin_join:NnnNnnnn
+            #2                           {b} {l}
+            \l_@@_dongyao_adjust_coffin {b} {r}
+            { 0pt } { 0pt }
+        }
+    }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsubsection*{爻的具体绘制}
+%
+% \begin{macro}{\@@_yao_stack:Nn}
+% 用于叠爻，对于给定序列中存储的二进制数字串，检测到0往上叠阴爻，检测到1往上叠阳爻。
+% \begin{arguments}
+%   \item 存有二进制数的序列变量
+%   \item 上下爻间距
+% \end{arguments}
+%    \begin{macrocode}
+\cs_new_protected:Npn \@@_yao_stack:Nn #1#2
+  {
+    \coffin_clear:N  \l_@@_tmp_coffin
+    \vcoffin_set:Nnn \l_@@_tmp_coffin 
+      { \l_@@_yao_width_dim } 
+      { \skip_vertical:n { - #2 } }
+    \@@_make_yinyao_coffin:nnn 
+      { \l_@@_yao_yingap_dim } 
+      { \l_@@_yao_width_dim  } 
+      { \l_@@_yao_height_dim }
+    \@@_make_yangyao_coffin:nn 
+      { \l_@@_yao_width_dim  } 
+      { \l_@@_yao_height_dim }
+    \seq_map_inline:Nn #1
+      {
+        \int_case:nn { ##1 }
+          {
+            {0}
+            {
+              \coffin_join:NnnNnnnn 
+                \l_@@_tmp_coffin    {l} {t}
+                \l_@@_yinyao_coffin {l} {b}
+                { 0em } {#2}
+            }
+            {1}
+            {
+              \coffin_join:NnnNnnnn 
+                \l_@@_tmp_coffin     {l} {t}
+                \l_@@_yangyao_coffin {l} {b}
+                { 0em } {#2}
+            }
+          }
+      }
+  }
+%    \end{macrocode}
+%
+% \end{macro}
+%
+% \begin{macro}{\@@_draw_yao:nnn,\@@_draw_yao:nne}
+% 用于绘制由爻组成的各种符号。
+% \begin{arguments}
+%   \item 上下爻间距
+%   \item 进制类型
+%   \item 数字
+% \end{arguments}
+%    \begin{macrocode}
+\cs_new:Npn \@@_draw_yao:nnn #1#2#3
+  {
+%    \end{macrocode}
+%
+% 进制检查与对应处理，1为二进制；2为十进制。
+%    \begin{macrocode}
+    \int_case:nn {#2}
+      {
+        {1}{ \seq_set_split:Nnn \l_@@_tmpa_seq {} {#3} }
+        {2}
+        {
+          \@@_int_to_bin:nn { \l_@@_type_int } {#3} 
+          \seq_set_split:Nne \l_@@_tmpa_seq {} { \l_@@_tmpb_tl }
+        }
+      }
+%    \end{macrocode}
+%
+% 检测到0往上叠阴爻，检测到1往上叠阳爻。
+%    \begin{macrocode}
+    \@@_yao_stack:Nn \l_@@_tmpa_seq {#1}
+%    \end{macrocode}
+%
+% 缩放。
+%    \begin{macrocode}
+    \@@_yao_get_xyscale:n { xy }
+    \coffin_scale:Nnn \l_@@_tmp_coffin 
+      { \l_@@_yao_xscale_fp } { \l_@@_yao_yscale_fp }
+%    \end{macrocode}
+%
+% 是否标注动爻。
+%    \begin{macrocode}
+    \bool_if:NT \l_@@_dongyao_mark_bool
+      {
+        \@@_dongyao_get:NNN 
+          \l_@@_tmpa_seq 
+          \l_@@_tmp_coffin 
+          \l_@@_dongyao_num_clist
+      }
+%    \end{macrocode}
+%
+% 旋转。
+%    \begin{macrocode}
+    \coffin_rotate:Nn \l_@@_tmp_coffin { \l_@@_yao_rotate_fp }
+%    \end{macrocode}
+%
+% 输出。
+%    \begin{macrocode} 
+    \coffin_typeset:Nnnnn \l_@@_tmp_coffin {H} {l} { 0pt } { 0pt } 
+  }
+\cs_generate_variant:Nn \@@_draw_yao:nnn { nne }
+%    \end{macrocode}
+%\end{macro}
+%
+% \begin{macro}{\yao}
+% 用户命令封装，用于通过数字绘制两仪、四象、八卦、重卦。
+%    \begin{macrocode}
+\NewDocumentCommand{\yao}{ o m }
+  {
+    \group_begin:
+      \IfNoValueF{#1}
+        {
+          \keys_set:nn { yi/yao } {#1}
+        }
+      \@@_draw_yao:nnn { \l_@@_yao_vsep_dim } { \l_@@_jinzhi_int } {#2}
+    \group_end:
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsection{太极图的绘制}
+%
+% \subsubsection*{太极图的几何尺寸}
+%
+% \begin{macro}{dim/linewidth, dim/Radius, dim/radius}
+% 线宽、太极图半径、阴阳鱼眼半径的定义与初始设置。
+%    \begin{macrocode}
+\clist_map_inline:nn 
+  { linewidth, Radius, radius }
+  {
+    \keys_define:nn { yi/taiji/dim }
+      {
+        #1 .dim_set:c = { l_@@_taiji_ #1 _dim },
+        #1 .groups:n  = { second }
+      }
+  }
+\keys_set:nn { yi/taiji/dim }
+  {
+    linewidth = 0.4pt,
+    Radius    = 0.5em,
+    radius    = 0.05em
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsubsection*{太极图的几何变换}
+%
+% \begin{macro}{scale, rotate, reflect, lower}
+% 太极图的缩放、旋转、镜像反射、（相对于基线的）升降。
+%    \begin{macrocode}
+\keys_define:nn {yi/taiji}
+  {
+%    \end{macrocode}
+%
+% 缩放
+%    \begin{macrocode}
+    scale   .fp_set:N   = \l_@@_taiji_scale_fp,
+    scale   .initial:n  = {1},
+    scale   .groups:n   = { third },
+%    \end{macrocode}
+%
+% 旋转
+%    \begin{macrocode}
+    rotate  .fp_set:N   = \l_@@_taiji_rotate_fp,
+    rotate  .initial:n  = {0},
+    rotate  .groups:n   = { fourth },
+%    \end{macrocode}
+%
+% 镜像反射
+%    \begin{macrocode}
+    reflect .bool_set:N = \l_@@_taiji_reflect_bool,
+    reflect .default:n  = true,
+    reflect .initial:n  = false,
+    reflect .groups:n   = { third },
+%    \end{macrocode}
+%
+% 升降
+%    \begin{macrocode}
+    lower   .dim_set:N  = \l_@@_taiji_lower_dim,
+    lower   .initial:n  = { 0pt }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% 定义元（meta）键值对
+%    \begin{macrocode}
+\keys_define:nn { yi }
+  {
+    taiji     .meta:nn  = { yi/taiji     } {#1},
+    taiji     .groups:n = { first  },
+    taiji/dim .meta:nn  = { yi/taiji/dim } {#1},
+    taiji/dim .groups:n = { second }
+  }
+%    \end{macrocode}
+%
+% \subsubsection*{太极图的具体绘制}
+%
+% \begin{macro}{\@@_draw_taiji:} 
+% 用于绘制太极图。
+%    \begin{macrocode}
+\cs_new_protected:Npn \@@_draw_taiji:
+  {
+    \draw_begin:
+%    \end{macrocode}
+%
+% 线宽
+%    \begin{macrocode}
+      \draw_linewidth:n { \l_@@_taiji_linewidth_dim }
+%    \end{macrocode}
+%
+% 整体缩放
+%    \begin{macrocode}
+      \draw_transform_scale:n { \l_@@_taiji_scale_fp }
+%    \end{macrocode}
+%
+% 旋转
+%    \begin{macrocode}
+      \draw_transform_rotate:n { \l_@@_taiji_rotate_fp }
+%    \end{macrocode}
+%
+% 画最外围的圆
+%    \begin{macrocode}
+      \draw_path_moveto:n { 0 , 0 }
+      \draw_path_circle:nn { 0 , 0 } { \l_@@_taiji_Radius_dim }
+      \draw_path_use_clear:n { stroke }
+%    \end{macrocode}
+%
+% 画阴鱼。根据是否做镜像反射选用不同的代码
+%    \begin{macrocode}
+      \draw_path_moveto:n { 0 , \l_@@_taiji_Radius_dim }
+      \bool_if:NTF \l_@@_taiji_reflect_bool 
+        { \use_ii_i:nn }
+        { \use:nn      }
+      { \draw_path_arc:nnn {  90 } { -90 } { \l_@@_taiji_Radius_dim/2 } }
+      { \draw_path_arc:nnn {  90 } { 270 } { \l_@@_taiji_Radius_dim/2 } }
+      \bool_if:NTF \l_@@_taiji_reflect_bool 
+        { \use_ii:nn }
+        { \use_i:nn  }
+      { \draw_path_arc:nnn { -90 } {  90 } { \l_@@_taiji_Radius_dim }   }
+      { \draw_path_arc:nnn { 270 } {  90 } { \l_@@_taiji_Radius_dim }   }
+      \color_fill:n { black }
+      \draw_path_use_clear:n { fill , stroke }
+%    \end{macrocode}
+%
+% 画阴鱼眼
+%    \begin{macrocode}
+      \draw_path_circle:nn { 0 , -\l_@@_taiji_Radius_dim/2 } { \l_@@_taiji_radius_dim }
+      \color_fill:n { white }
+      \draw_path_use_clear:n { fill }
+%    \end{macrocode}
+%
+% 画阳鱼眼
+%    \begin{macrocode}
+      \draw_path_circle:nn { 0 ,  \l_@@_taiji_Radius_dim/2 } { \l_@@_taiji_radius_dim }
+      \color_fill:n { black }
+      \draw_path_use_clear:n { fill }
+    \draw_end:
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\taiji}
+% 用户命令封装。
+%    \begin{macrocode}
+\NewDocumentCommand{\taiji}{o}
+  {
+    \group_begin:
+      \IfNoValueF{#1}
+        {
+          \keys_set:nn { yi/taiji } {#1}
+        }
+      \mode_if_horizontal:TF
+        { \tex_lower:D \l_@@_taiji_lower_dim \hbox:n{ \@@_draw_taiji: } }
+        { \@@_draw_taiji: }
+    \group_end:
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsection{通过名称画爻}
+%
+% \begin{variable}
+%     {
+%       \c_@@_liangyi_prop,
+%       \c_@@_sixiang_prop,
+%       \c_@@_bagua_prop,
+%       \c_@@_chonggua_prop
+%     }
+% 新建属性列表常量，并将两仪、四象、八卦、重卦所对应的二进制数与其名称相关联。
+%    \begin{macrocode}
+\prop_const_from_keyval:Nn \c_@@_liangyi_prop
+  {
+    { 阳爻 } = { 1 },
+    { 阴爻 } = { 0 }
+  }
+\prop_const_from_keyval:Nn \c_@@_sixiang_prop
+  {
+    { 太阳 } = { 11 },
+    { 少阴 } = { 10 },
+    { 少阳 } = { 01 },
+    { 太阴 } = { 00 }
+  }
+\prop_const_from_keyval:Nn \c_@@_bagua_prop
+  {
+    { 乾 } = { 111 },
+    { 兑 } = { 110 },
+    { 离 } = { 101 },
+    { 震 } = { 100 },
+    { 巽 } = { 011 },
+    { 坎 } = { 010 },
+    { 艮 } = { 001 },
+    { 坤 } = { 000 }
+  }
+\prop_const_from_keyval:Nn \c_@@_chonggua_prop
+  {
+    { 乾   } = { 111111 } ,
+    { 坤   } = { 000000 } ,
+    { 屯   } = { 100010 } ,      
+    { 蒙   } = { 010001 } ,   
+    { 需   } = { 111010 } ,   
+    { 讼   } = { 010111 } ,   
+    { 师   } = { 010000 } ,   
+    { 比   } = { 000010 } ,   
+    { 小畜 } = { 111011 } ,  
+    { 履   } = { 110111 } ,   
+    { 泰   } = { 111000 } ,   
+    { 否   } = { 000111 } ,   
+    { 同人 } = { 101111 } ,         
+    { 大有 } = { 111101 } ,         
+    { 谦   } = { 001000 } ,        
+    { 豫   } = { 000100 } ,        
+    { 随   } = { 100110 } ,        
+    { 蛊   } = { 011001 } ,        
+    { 临   } = { 110000 } ,        
+    { 观   } = { 000011 } ,        
+    { 噬嗑 } = { 100101 } ,          
+    { 贲   } = { 101001 } ,       
+    { 剥   } = { 000001 } ,       
+    { 复   } = { 100000 } ,       
+    { 无妄 } = { 100111 } ,         
+    { 大畜 } = { 111001 } ,        
+    { 颐   } = { 100001 } ,      
+    { 大过 } = { 011110 } ,         
+    { 坎   } = { 010010 } ,       
+    { 离   } = { 101101 } ,        
+    { 咸   } = { 001110 } ,        
+    { 恒   } = { 011100 } ,        
+    { 遁   } = { 001111 } ,        
+    { 大壮 } = { 111100 } ,         
+    { 晋   } = { 000101 } ,        
+    { 明夷 } = { 101000 } ,         
+    { 家人 } = { 101011 } ,          
+    { 睽   } = { 110101 } ,       
+    { 蹇   } = { 001010 } ,       
+    { 解   } = { 010100 } ,       
+    { 损   } = { 110001 } ,       
+    { 益   } = { 100011 } ,       
+    { 夬   } = { 111110 } ,       
+    { 姤   } = { 011111 } ,       
+    { 萃   } = { 000110 } ,       
+    { 升   } = { 011000 } ,       
+    { 困   } = { 010110 } ,       
+    { 井   } = { 011010 } ,       
+    { 革   } = { 101110 } ,       
+    { 鼎   } = { 011101 } ,       
+    { 震   } = { 100100 } ,       
+    { 艮   } = { 001001 } ,       
+    { 渐   } = { 001011 } ,        
+    { 归妹 } = { 110100 } ,        
+    { 丰   } = { 101100 } ,       
+    { 旅   } = { 001101 } ,       
+    { 巽   } = { 011011 } ,       
+    { 兑   } = { 110110 } ,       
+    { 涣   } = { 010011 } ,       
+    { 节   } = { 110010 } ,       
+    { 中孚 } = { 110011 } ,         
+    { 小过 } = { 001100 } ,        
+    { 既济 } = { 101010 } ,        
+    { 未济 } = { 010101 }       
+  }
+%    \end{macrocode}
+% \end{variable}
+%
+% \begin{macro}{\liangyi, \sixiang, \bagua, \chonggua}
+% 用户命令封装，用于通过名称绘制两仪、四象、八卦、重卦。
+%    \begin{macrocode}
+\NewDocumentCommand{\liangyi}{ o m }
+  {
+    \group_begin:
+      \IfNoValueF{#1}
+        {
+          \keys_set_groups:nnn { yi/yao } 
+            { first, second, third, fourth, fifth, sixth } {#1}
+        }
+      \tl_clear:N \l_tmpa_tl
+      \tl_set:Ne \l_tmpa_tl { \prop_item:Nn \c_@@_liangyi_prop {#2} }
+      \@@_draw_yao:nne { \l_@@_yao_vsep_dim } { 1 } { \l_tmpa_tl }
+    \group_end:
+  }
+\NewDocumentCommand{\sixiang}{ o m }
+  {
+    \group_begin:
+      \IfNoValueF{#1}
+        {
+          \keys_set_groups:nnn { yi/yao } 
+            { first, second, third, fourth, fifth, sixth } {#1}
+        }
+      \tl_clear:N \l_tmpa_tl
+      \tl_set:Ne \l_tmpa_tl { \prop_item:Nn \c_@@_sixiang_prop {#2} }
+      \@@_draw_yao:nne { \l_@@_yao_vsep_dim } { 1 } { \l_tmpa_tl }
+    \group_end:
+  }
+\NewDocumentCommand{\bagua}{ o m }
+  {
+    \group_begin:
+      \IfNoValueF{#1}
+        {
+          \keys_set_groups:nnn { yi/yao }
+            { first, second, third, fourth, fifth, sixth } {#1}
+        }
+      \tl_clear:N \l_tmpa_tl
+      \tl_set:Nn \l_tmpa_tl { \prop_item:Nn \c_@@_bagua_prop {#2} }
+      \@@_draw_yao:nne { \l_@@_yao_vsep_dim } { 1 } { \l_tmpa_tl }
+    \group_end:
+  }
+\NewDocumentCommand{\chonggua}{ o m }
+  {
+    \group_begin:
+      \IfNoValueF{#1}
+        {
+          \keys_set_groups:nnn { yi/yao } 
+            { first, second, third, fourth, fifth, sixth } {#1}
+        }
+      \tl_clear:N \l_tmpa_tl
+      \tl_set:Nn \l_tmpa_tl { \prop_item:Nn \c_@@_chonggua_prop {#2} }
+      \@@_draw_yao:nne { \l_@@_yao_vsep_dim } { 1 } { \l_tmpa_tl }
+    \group_end:
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsection{太极八卦图的绘制}
+% 
+% \begin{variable}
+%   {    
+%     \c_@@_xiantian_bagua_clist,
+%     \c_@@_houtian_bagua_clist,
+%     \c_@@_xiantian_num_clist, 
+%     \c_@@_houtian_num_clist,  
+%     \c_@@_fangwei_clist 
+%   }
+% 这五个逗号分隔列表常量分别用于存储先天/后天八卦顺序、方位、先天/后天数
+%    \begin{macrocode}
+\clist_const:Nn \c_@@_houtian_bagua_clist  
+  { 离, 巽, 震, 艮, 坎, 乾, 兑, 坤 }
+\clist_const:Nn \c_@@_xiantian_bagua_clist 
+  { 乾, 兑, 离, 震, 坤, 艮, 坎, 巽  }
+\clist_const:Nn \c_@@_fangwei_clist 
+  { 南方, 东南, 东方, 东北, 北方, 西北, 西方, 西南 }
+\clist_const:Nn \c_@@_xiantian_num_clist 
+  { 1, 2, 3, 4, 8, 7, 6, 5 }
+\clist_const:Nn \c_@@_houtian_num_clist  
+  { 9, 4, 3, 8, 1, 6, 7, 2 } 
+%    \end{macrocode}
+% \end{variable}
+%
+%    \begin{macrocode}
+\clist_map_inline:nn
+  { name, number, fangwei }
+  {
+    \keys_define:nn { yi/taiji-bagua }
+      {
+        #1/show   .bool_set:c = { l_@@_taiji_bagua_ #1 _show_bool },
+        #1/show   .default:n  = true,
+        #1/show   .initial:n  = false,
+        #1/show   .groups:n   = { second },
+        #1/format .tl_set:c   = { l_@@_taiji_bagua_ #1 _format_tl },
+        #1/format .groups:n   = { second },
+        #1        .meta:nn    = { yi/taiji-bagua/#1 } {##1},
+        #1        .groups:n   = { second }
+      }
+  }
+\keys_set:nn { yi/taiji-bagua }
+  {
+    fangwei/format = { \itshape  },
+    name/format    = { \bfseries } 
+  }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\keys_define:nn { yi/taiji-bagua }
+  {
+%    \end{macrocode}
+%
+% 太极八卦图的类型选择（先天/后天）
+%    \begin{macrocode}
+    type .choice:,
+    type .value_required:n = true,
+    type .choices:nn       = 
+      { xiantian, houtian }
+      { \int_set_eq:NN \l_@@_taiji_bagua_type_int \l_keys_choice_int },
+%    \end{macrocode}
+%
+% 控制太极八卦图的整体缩放
+%    \begin{macrocode}
+    gscale .fp_set:N       = \l_@@_taiji_bagua_scale_fp,
+    gscale .initial:n      = 1,
+    gscale .groups:n       = { third }
+  }
+%    \end{macrocode}
+%
+% 继承对太极图的设置
+%    \begin{macrocode}
+\keys_define:nn { yi/taiji-bagua }
+  { 
+    taiji     .inherit:n = { yi/taiji     },
+    taiji/dim .inherit:n = { yi/taiji/dim },
+    taiji     .meta:nn   = { yi/taiji } {#1}
+  }
+%    \end{macrocode}
+%
+%  继承对爻的部分设置：|dim/width|, |dim/heigh|, |dim/vsep|, |dim/yingap|, |scale|
+%    \begin{macrocode}
+\keys_define:nn { yi/taiji-bagua  }
+  { 
+    bagua/dim   .inherit:n = { yi/yao/dim },
+    bagua/scale .code:n    = { \keys_set:nn { yi/yao } { scale = {#1} } },
+    bagua       .code:n    = 
+      { 
+        \keys_set_groups:nnn { yi/yao } { first, second, third } {#1} 
+      }
+  }
+%    \end{macrocode}
+%
+% 定义元（meta）键值对
+%    \begin{macrocode}
+\keys_define:nn { yi }
+  {
+    taiji-bagua .meta:nn  = { yi/taiji-bagua } {#1},
+    taiji-bagua .groups:n = { first }
+  }
+%    \end{macrocode}
+%
+% \begin{macro}{\draw_node_center_polar:nnn}
+% 该函数只能用在\cs{draw_begin:}和\cs{draw_end:}间，用于在指定位置（极坐标）的中心放置指定内容
+% \begin{arguments}
+%   \item 极坐标：半径
+%   \item 极坐标：角度
+%   \item 要放置的内容
+% \end{arguments}
+%    \begin{macrocode}
+\cs_new_protected:Npn \draw_node_center_polar:nnn #1#2#3
+  {
+    \draw_transform_shift:n { \draw_point_polar:nn {#1} {#2} }
+    \coffin_clear:N \l_tmpa_coffin
+    \hcoffin_set:Nn \l_tmpa_coffin { #3 }
+    \draw_coffin_use:Nnn \l_tmpa_coffin {hc} {vc}
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_draw_taiji_bagua:}
+% 用于绘制太极八卦图。
+%    \begin{macrocode}
+\cs_new:Npn \@@_draw_taiji_bagua:
+  {
+    \draw_begin:
+%    \end{macrocode}
+%
+% 整体缩放图像
+%    \begin{macrocode}
+      \draw_transform_scale:n { \l_@@_taiji_bagua_scale_fp }
+%    \end{macrocode}
+%
+% 将太极图置于原点
+%    \begin{macrocode}
+      \draw_path_moveto:n { 0cm , 0cm }
+      \hcoffin_set:Nn \l_tmpa_coffin { \@@_draw_taiji: }
+      \draw_coffin_use:Nnn \l_tmpa_coffin {hc} {vc}
+%    \end{macrocode}
+%
+% 绘制八卦
+%    \begin{macrocode}      
+      \int_step_inline:nnn {1} {8}
+        {
+          \draw_path_scope_begin:
+            \draw_path_moveto:n { 0cm , 0cm }
+            \draw_transform_rotate:n { (##1-1) * 45 }
+            \draw_node_center_polar:nnn
+              { \l_@@_taiji_bagua_scale_fp * 2.4cm } 
+              { (##1-1) * 45 + 90 }
+              {
+                \int_case:nn { \l_@@_taiji_bagua_type_int }
+                  {
+%    \end{macrocode}
+%
+% 按先天八卦次序依次将各卦存储于临时匣子中，然后按次序显示各卦
+%    \begin{macrocode}
+                    {1}
+                    { 
+                      \tl_clear:N \l_tmpa_tl
+                      \tl_set:Ne \l_tmpa_tl 
+                        {
+                          \prop_item:Ne \c_@@_bagua_prop 
+                            { 
+                              \clist_item:Nn \c_@@_xiantian_bagua_clist {##1} 
+                            } 
+                        }
+                      \@@_draw_yao:nne { \l_@@_yao_vsep_dim } { 1 } { \l_tmpa_tl }
+                    }
+%    \end{macrocode}
+%
+% 按后天八卦次序依次将各卦存储于临时匣子中，然后按次序显示各卦
+%    \begin{macrocode}
+                    {2}
+                    {  
+                      \tl_clear:N \l_tmpa_tl 
+                      \tl_set:Ne \l_tmpa_tl 
+                        {
+                          \prop_item:Ne \c_@@_bagua_prop 
+                            { 
+                              \clist_item:Nn \c_@@_houtian_bagua_clist {##1} 
+                            } 
+                        }
+                      \@@_draw_yao:nne { \l_@@_yao_vsep_dim } { 1 } { \l_tmpa_tl }
+                    }
+                  }
+              }
+%    \end{macrocode}
+%
+% 在新坐标（而非原坐标）的基础上移动指定距离，并放置各卦名称
+%    \begin{macrocode}            
+            \bool_if:NT \l_@@_taiji_bagua_name_show_bool
+              {
+                \draw_node_center_polar:nnn
+                  { \l_@@_taiji_bagua_scale_fp * 0.68cm } 
+                  { (##1-1) * 45 + 90 }
+                  {
+                    \int_case:nn { \l_@@_taiji_bagua_type_int }
+                      {
+                        {1} 
+                        { 
+                          \l_@@_taiji_bagua_name_format_tl
+                          { \clist_item:Nn \c_@@_xiantian_bagua_clist {##1} }
+                        }
+                        {2} 
+                        { 
+                          \l_@@_taiji_bagua_name_format_tl
+                          { \clist_item:Nn \c_@@_houtian_bagua_clist {##1} }
+                        }
+                      }
+                  }
+              }
+%    \end{macrocode}
+%
+% 在新坐标（而非原坐标）的基础上移动指定距离，并放置数字
+%    \begin{macrocode}
+            \bool_if:NT \l_@@_taiji_bagua_number_show_bool
+              {
+                \draw_node_center_polar:nnn
+                  { \l_@@_taiji_bagua_scale_fp * 0.68cm } 
+                  { (##1-1) * 45 + 90 }
+                  {
+                    \int_case:nn { \l_@@_taiji_bagua_type_int }
+                      {
+                        {1}
+                        { 
+                          \l_@@_taiji_bagua_number_format_tl
+                          { \clist_item:Nn \c_@@_xiantian_num_clist {##1} } 
+                        }
+                        {2}
+                        { 
+                          \l_@@_taiji_bagua_number_format_tl
+                          { \clist_item:Nn \c_@@_houtian_num_clist {##1} }
+                        }
+                      }
+                  }
+              }
+%    \end{macrocode}
+%
+% 在新坐标（而非原坐标）的基础上移动指定距离，并放置方位
+%    \begin{macrocode}
+            \bool_if:NT \l_@@_taiji_bagua_fangwei_show_bool
+              {
+                \draw_node_center_polar:nnn
+                  { \l_@@_taiji_bagua_scale_fp * 0.68cm }
+                  { (##1-1) * 45 + 90 }
+                  {
+                    \l_@@_taiji_bagua_fangwei_format_tl
+                    { \clist_item:Nn \c_@@_fangwei_clist {##1} }
+                  }
+              }
+            \coffin_clear:N \l_tmpa_coffin
+          \draw_path_scope_end:
+        }
+    \draw_end:
+  }
+%    \end{macrocode}
+% \end{macro}
+% 
+% \begin{macro}{\taijibagua}
+% 用户层命令。
+%    \begin{macrocode}
+\NewDocumentCommand{\taijibagua}{ o m }
+  {
+    \group_begin:
+%    \end{macrocode}
+% 
+% 一些初始设置，用于消除其他地方设置对此的影响
+%    \begin{macrocode}
+      \keys_set:nn { yi/taiji-bagua }
+        {
+          taiji = 
+            { 
+              scale         = 6, 
+              rotate        = 0,
+              dim/Radius    = 0.5em, 
+              dim/radius    = 0.05em, 
+              dim/linewidth = 0.4pt 
+            },
+          bagua = 
+            { 
+              scale      = 3.3 ,
+              dim/width  = 1em,
+              dim/height = 1pt,
+              dim/vsep   = 0.1em,
+              dim/yingap = 0.1em          
+            }
+        } 
+      \IfNoValueF{#1}
+        {
+          \keys_set:nn { yi/taiji-bagua } { #1 }
+        }
+      \keys_set:nn { yi/taiji-bagua } { type = #2 }
+%    \end{macrocode}
+% 
+% 取消动爻标注功能
+%    \begin{macrocode}      
+      \bool_set_false:N \l_@@_dongyao_mark_bool
+%    \end{macrocode}
+% 
+% 对先天太极八卦图做反射
+%    \begin{macrocode}
+      \int_compare:nNnT {\l_@@_taiji_bagua_type_int} = {1}
+        { 
+          \keys_set:nn { yi/taiji-bagua } 
+            { taiji = { reflect, rotate=180 } } 
+        }
+      \@@_draw_taiji_bagua: 
+    \group_end:
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsection{彩蛋部分}
+%
+% \begin{macro}{\seq_scope:NnnN}
+% 获取某序列从\meta{起始位置数}至\meta{终止位置数}这一范围内的序列元素，并将其存储于自命名的新序列中。
+% \begin{arguments}
+%   \item 序列
+%   \item 起始位置数
+%   \item 终止位置数
+%   \item 自命名的新序列
+% \end{arguments}
+%    \begin{macrocode}
+\cs_new:Npn \seq_scope:NnnN #1#2#3#4
+  {
+    \seq_clear_new:N #4
+    \int_step_inline:nnnn {#2}{1}{#3}
+      {
+        \seq_put_right:Ne #4 { \seq_item:Nn #1 {##1} }
+      }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_get_hugua_seq:NN}
+% 取互卦序列。
+% \begin{arguments}
+%   \item 存储本卦数的序列
+%   \item 自命名的新序列，其内存储着互卦数
+% \end{arguments}
+%    \begin{macrocode}
+\cs_new:Npn \@@_get_hugua_seq:NN #1#2
+  {
+    \seq_clear_new:N #2
+    \seq_scope:NnnN #1 {2}{4} \l_@@_hugua_down
+    \seq_scope:NnnN #1 {3}{5} \l_@@_hugua_up
+    \seq_concat:NNN #2 \l_@@_hugua_down \l_@@_hugua_up
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+%    \begin{macrocode}
+\keys_define:nn { yi/meihuayishu }
+  {
+    hspace .dim_set:N = \l_@@_meihua_yishu_hspace_dim,
+    hspace .initial:n = {2em}
+  }
+%    \end{macrocode}
+%
+% 继承对爻的部分设置：
+%    \begin{macrocode}
+\keys_define:nn { yi/meihuayishu }
+  {
+    yao/dim .inherit:n = { yi/yao/dim },
+    yao .code:n    = 
+      { 
+        \keys_set_groups:nnn { yi/yao } 
+          { first, second, third, fourth, sixth } {#1} 
+      }
+  }
+\clist_map_inline:nn 
+  { scale, rotate, dongyao/hspace, dongyao/node, dongyao/basic-linewidth }
+  {
+    \keys_define:nn { yi/meihuayishu }
+      {
+        yao/#1 .code:n = { \keys_set:nn { yi/yao } { #1 = {##1} } }
+      }
+  }
+%    \end{macrocode}
+%
+% \begin{macro}{\@@_meihua_yishu_get_xiantian_num:n}
+% 获取先天数。
+% \begin{arguments}
+%   \item 十进制数
+% \end{arguments}
+%    \begin{macrocode}
+\cs_new_protected:Npn \@@_meihua_yishu_get_xiantian_num:n #1
+  {
+    \int_compare:nNnT {#1} > {0}
+      {
+        \int_compare:nTF { 1 <= #1 <= 8 }
+        {#1}
+        {
+          \int_compare:nNnTF { \int_mod:nn {#1} {8} } = {0}
+            {8}
+            { \int_mod:nn {#1} {8} }
+        }
+      }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_meihua_yishu_get_dongyao_num:n}
+% 获取动爻数。
+% \begin{arguments}
+%   \item 十进制数
+% \end{arguments}
+%    \begin{macrocode}
+\cs_new_protected:Npn \@@_meihua_yishu_get_dongyao_num:n #1
+  {
+    \int_compare:nNnT {#1} > {0}
+      {
+        \int_compare:nTF { 1 <= #1 <= 6 }
+        {#1}
+        {
+          \int_compare:nNnTF { \int_mod:nn {#1} {6} } = {0}
+            {6}
+            { \int_mod:nn {#1} {6} }
+        }
+      }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\seq_set_item:Nnn}
+%    \begin{macrocode}
+\cs_generate_variant:Nn  \seq_set_item:Nnn { NnV }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_meihua_yishu_qigua:nnn}
+% 获取本卦（并标注动爻）及其互卦、变卦。
+%    \begin{macrocode}
+\cs_new:Npn \@@_meihua_yishu_qigua:nnn #1#2#3
+  {
+    \group_begin:
+      \seq_clear:N \l_tmpb_seq
+      \seq_clear:N \l_tmpa_seq
+%    \end{macrocode}   
+%
+% 分别获取上卦、下卦对应的二进制数，并组合为本卦对应的二进制序列
+%    \begin{macrocode}   
+      \@@_int_to_bin:nn {3} { 8 - \@@_meihua_yishu_get_xiantian_num:n {#1} }
+      \seq_set_split:Nne \l_tmpa_seq {} { \l_@@_tmpb_tl }
+      \@@_int_to_bin:nn {3} { 8 - \@@_meihua_yishu_get_xiantian_num:n {#2} }
+      \seq_set_split:Nne \l_tmpb_seq {} { \l_@@_tmpb_tl }
+      \seq_concat:NNN \l_tmpa_seq \l_tmpb_seq \l_tmpa_seq
+%    \end{macrocode}   
+%
+% 开启动爻标注功能
+%    \begin{macrocode} 
+      \bool_set_true:N  \l_@@_dongyao_mark_bool
+%    \end{macrocode}   
+%
+% 获取动爻数，并绘制本卦
+%    \begin{macrocode}
+      \int_set:Nn \l_tmpa_int { \@@_meihua_yishu_get_dongyao_num:n {#3} }
+      \clist_set:NV \l_@@_dongyao_num_clist { \l_tmpa_int }
+      \@@_draw_yao:nne { \l_@@_yao_vsep_dim } { 1 } 
+        { \seq_use:Nn \l_tmpa_seq {} }
+%    \end{macrocode}   
+%
+% 关闭动爻标注功能
+%    \begin{macrocode}
+      \bool_set_false:N  \l_@@_dongyao_mark_bool
+%    \end{macrocode}   
+%
+% 获取互卦序列，并绘制互卦
+%    \begin{macrocode}
+      \@@_get_hugua_seq:NN \l_tmpa_seq \l_@@_hugua_tmpa_seq
+      \skip_horizontal:n {\l_@@_meihua_yishu_hspace_dim }
+      \@@_draw_yao:nne { \l_@@_yao_vsep_dim } { 1 } 
+        { \seq_use:Nn \l_@@_hugua_tmpa_seq {} }
+%    \end{macrocode}   
+%
+% 反转动爻真假，重新得到变卦序列
+%    \begin{macrocode}
+      \int_case:nn { \seq_item:Nn \l_tmpa_seq { \l_tmpa_int } }
+        {
+          {0}{ \int_set:Nn \l_tmpb_int {1} }
+          {1}{ \int_set:Nn \l_tmpb_int {0} }
+        }
+      \seq_set_item:NnV \l_tmpa_seq { \l_tmpa_int }  { \l_tmpb_int }
+%    \end{macrocode}   
+%
+% 绘制变卦
+%    \begin{macrocode}
+      \bool_if:NTF \l_@@_dongyao_node_right_bool
+        {
+          \@@_yao_get_xyscale:n {y}
+          \skip_horizontal:n 
+            {
+              \fp_to_dim:n 
+                { 
+                  \l_@@_dongyao_hspace_dim + 
+                  \l_@@_yao_yscale_fp * 0.9 *
+                  \l_@@_yao_height_dim +
+                  \l_@@_meihua_yishu_hspace_dim 
+                }
+            }
+        }
+        {
+          \skip_horizontal:n { \l_@@_meihua_yishu_hspace_dim }
+        }
+      \@@_draw_yao:nne { \l_@@_yao_vsep_dim } { 1 } 
+        { \seq_use:Nn \l_tmpa_seq {} }
+      \seq_clear:N \l_tmpb_seq
+      \seq_clear:N \l_tmpa_seq
+    \group_end:
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\qigua}
+% 用户层命令。
+%    \begin{macrocode}
+\NewDocumentCommand{\qigua}{ o m m m }
+  {
+    \group_begin:
+      \keys_set:nn { yi/meihuayishu }
+        {
+          yao/scale = 3,
+          yao/dongyao/hspace = { 0.2em }
+        } 
+      \IfNoValueF{#1}
+        {
+          \keys_set:nn { yi/meihuayishu } {#1}
+        }
+      \@@_meihua_yishu_qigua:nnn {#2} {#3} {#4}
+    \group_end:
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\yisetup}
+% 用户设置接口
+%    \begin{macrocode}
+\NewDocumentCommand{\yisetup}{ m }
+  {
+    \keys_set_groups:nnn { yi } { first, second, third, sixth } {#1}
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+%    \begin{macrocode}
+%</package>
+%    \end{macrocode}
+%
+% \end{implementation}
+%
+% \Finale
+\endinput

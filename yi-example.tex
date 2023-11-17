@@ -1,0 +1,208 @@
+\documentclass{ctexart}
+
+\usepackage{yi,
+            tikz,
+           }
+
+\title{\textsf{yi}宏包与\textsf{tikz}宏包结合使用案例}
+\author{dyu}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{绘制先天八卦次序图}
+
+《系辞传》曰：“易有太极，是生两仪，两仪生四象，四象生八卦。”
+
+\begin{figure}[h]
+  \centering
+  \ExplSyntaxOn
+  \begin{tikzpicture}
+    \int_step_inline:nnn {1} {8}
+      { 
+        % 放置先天八卦数
+        \node ( a #1 ) at ( #1 , 7 ) {#1}; 
+        \clist_clear:N \l_tmpa_clist
+        % 存储先天八卦名
+        \clist_set:Nn \l_tmpa_clist { 乾, 兑, 离, 震, 巽, 坎, 艮, 坤 }
+        % 放置先天八卦名
+        \node ( b #1 ) at ( #1 , 6.5 ) 
+          { \clist_item:Nn \l_tmpa_clist {#1} };
+        % 放置先天八卦
+        \node ( c #1 ) at ( #1 , 6   ) 
+          { \yao[ jinzhi=dec, type=bagua ]{ \int_eval:n { 8-#1 } } };
+      }
+    \int_step_inline:nnn {1} {4}
+      {
+        % 放置四象
+        \node ( d #1 ) at ( 2*#1-0.5 , 5 ) 
+          { \yao[ jinzhi=dec, type=sixiang ]{ \int_eval:n { 4-#1 } } };
+        \clist_clear:N \l_tmpa_clist
+        % 存储四象名
+        \clist_set:Nn \l_tmpa_clist { 太阳, 少阴, 少阳, 太阴 }
+        % 放置四象名
+        \node () at ( 2*#1-0.5 , 4.6 ) 
+          { \kaishu \clist_item:Nn \l_tmpa_clist {#1} };
+      }
+    \int_step_inline:nnn {1} {2}
+      {
+        % 放置两仪
+        \node ( e #1 ) at ( #1+#1^2+0.5 , 4 ) 
+          { \yao[ jinzhi=dec, type=liangyi ]{ \int_eval:n { 2 - #1 } } };
+        \clist_clear:N \l_tmpa_clist
+        % 存储两仪名
+        \clist_set:Nn \l_tmpa_clist { 阳爻, 阴爻 }
+        % 放置两仪名
+        \node () at ( #1+#1^2+0.5 , 3.6 ) 
+          { \kaishu \clist_item:Nn \l_tmpa_clist {#1} };
+      }
+    % 放置太极图
+    \node (f1) at ( 4.5 , 3   ) { \taiji[scale=1.6] };
+    % 放置“太极”二字
+    \node ()   at ( 4.5 , 2.4 ) { \fbox{太极} };
+    % 太极图向两仪连线
+    \draw ( f1 ) -- ( e1 );
+    \draw ( f1 ) -- ( e2 );
+    % 两仪向四象连线
+    \int_step_inline:nnn {1} {2}
+      {
+        \draw ( e #1 ) -- ( d \int_eval:n { #1*2 - 1 } );
+        \draw ( e #1 ) -- ( d \int_eval:n { #1*2 } );
+      }
+    % 四象向八卦连线
+    \int_step_inline:nnn {1} {4}
+      {
+        \draw ( d #1 ) -- ( c \int_eval:n { #1*2 - 1 } );
+        \draw ( d #1 ) -- ( c \int_eval:n { #1*2 } );
+      }
+  \end{tikzpicture}
+  \ExplSyntaxOff
+\end{figure}
+
+
+
+\section{绘制先天太极八卦图}
+
+《说卦传》曰：“天地定位，山泽通气，雷风相薄，水火不相射，八卦相错，数往者顺，知来者逆。”
+
+\begin{figure}[h]
+    \centering
+    \ExplSyntaxOn
+    \begin{tikzpicture}
+      % 将太极图放置于圆心
+      \node (a) at ( 0 , 0 ) { \taiji[scale=5,reflect] };
+      % 逆时针画乾、兑、离、震四卦
+      \int_step_inline:nnn {1} {4}
+        {
+          \node [ rotate = 45*(#1-1) ] () at 
+            ( \int_eval:n { ( #1-1 )*45 + 90 } \c_colon_str 2  )
+            { 
+              \yao 
+                [ jinzhi=dec, type=bagua, scale=3 ]
+                { \int_eval:n{ #1+2*(4-#1) } }
+            };
+        }
+      % 顺时针画巽、坎、艮、坤四卦
+      \int_step_inline:nnn {1} {4}
+        {
+          \node [ rotate = -45*#1 ] () at 
+            ( \int_eval:n { 90 - #1*45 } \c_colon_str 2) 
+            { 
+              \yao
+                [ jinzhi=dec, type=bagua, scale=3 ]
+                { \int_eval:n { 4-#1 } } 
+            };
+        }
+      \clist_clear:N \l_tmpa_clist
+      \clist_clear:N \l_tmpb_clist  
+      % 存储先天八卦名和先天八卦数
+      \clist_set:Nn \l_tmpa_clist 
+        { 乾(一), 兑(二), 离(三), 震(四), 坤(八), 艮(七), 坎(六), 巽(五) }
+      % 存储方位
+      \clist_set:Nn \l_tmpb_clist 
+        { 南方, 东南, 东方, 东北, 北方, 西北, 西方, 西南 }
+      \int_step_inline:nnn {1} {8}
+        {
+          % 放置先天八卦名和先天八卦数
+          \node [ rotate = (#1-1)*45 ] () at 
+            ( \int_eval:n { (#1-1)*45 + 90 } \c_colon_str 2.6 ) 
+            { \bfseries \clist_item:Nn \l_tmpa_clist {#1} };
+          % 放置方位
+          \node [ rotate = (#1-1)*45 ] () at 
+            ( \int_eval:n{(#1-1)*45+90} \c_colon_str 3.2) 
+            { \itshape \clist_item:Nn \l_tmpb_clist {#1} };
+        }
+    \end{tikzpicture}
+    \ExplSyntaxOff
+    \caption{先天太极八卦图}
+\end{figure}
+
+
+
+\section{绘制后天太极八卦图}
+
+《说卦传》：“帝出乎震，齐乎巽，相间乎离，致役乎坤，说言乎兑，战乎乾，劳乎坎，成言乎艮。”
+
+\begin{figure}
+  \centering
+  \ExplSyntaxOn
+  \begin{tikzpicture}
+    % 将太极图放置于圆心
+    \node (a) at ( 0 , 0 ) { \taiji[scale=5] };
+    % 新建四个逗号分隔列表变量，用于存储八卦、八卦名、方位、五行
+    \clist_clear_new:N \l_houtian_tmpa_clist
+    \clist_clear_new:N \l_houtian_tmpb_clist
+    \clist_clear_new:N \l_houtian_tmpc_clist
+    \clist_clear_new:N \l_houtian_tmpd_clist
+    % 将八卦放大三倍
+    \yisetup{ yao/scale=3 }
+    % 存储八卦
+    \clist_set:Nn \l_houtian_tmpa_clist 
+      {
+        \yao{101}, 
+        \yao{011},
+        \yao{100}, 
+        \yao{001}, 
+        \yao{010}, 
+        \yao{111}, 
+        \yao{110}, 
+        \yao{000} 
+      }
+    % 自离卦开始逆时针存储八卦名
+    \clist_set:Nn \l_houtian_tmpb_clist 
+      { 离, 巽, 震, 艮, 坎, 乾, 兑, 坤 }
+    % 自南方开始逆时针存储八卦方位
+    \clist_set:Nn \l_houtian_tmpc_clist 
+      { 南方, 东南, 东方, 东北, 北方, 西北, 西方, 西南 }
+    % 自火属性开始逆时针存储五行
+    \clist_set:Nn \l_houtian_tmpd_clist 
+      { 火, 木, 木, 土, 水, 金, 金, 土 }
+    \int_step_inline:nnn {1} {8}
+      {
+        % 放置八卦
+        \node [ rotate = (#1-1)*45 ] () at 
+          ( \int_eval:n { (#1-1)*45 + 90 } \c_colon_str 2 ) 
+          { \clist_item:Nn \l_houtian_tmpa_clist {#1} };
+        % 放置八卦名
+        \node [ rotate = (#1-1)*45 ] () at
+          ( \int_eval:n { (#1-1)*45 + 90 } \c_colon_str 2.6 ) 
+          { \bfseries \clist_item:Nn \l_houtian_tmpb_clist {#1} };
+        % 放置八卦方位
+        \node [ rotate = (#1-1)*45 ] () at 
+          ( \int_eval:n { (#1-1)*45 + 90 } \c_colon_str 3.2 ) 
+          { \itshape \color{purple} \clist_item:Nn \l_houtian_tmpc_clist {#1} };
+        % 放置八卦五行
+        \node [ rotate = (#1-1)*45 ] () at 
+          ( \int_eval:n { (#1-1)*45 + 90 } \c_colon_str 3.8 ) 
+          { \itshape \clist_item:Nn \l_houtian_tmpd_clist {#1} };
+      }
+  \end{tikzpicture}
+  \ExplSyntaxOff
+  \caption{后天太极八卦图}
+\end{figure}
+
+
+
+\end{document}

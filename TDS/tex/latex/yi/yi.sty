@@ -1,0 +1,1035 @@
+%%
+%% This is file `yi.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% yi.dtx  (with options: `package')
+%% 
+%%     Copyright (C) 2023 by Yu Du <3531243657@qq.com>
+%% ---------------------------------------------------------------
+%% 
+%%     This work may be distributed and/or modified under the
+%%     conditions of the LaTeX Project Public License, either
+%%     version 1.3c of this license or (at your option) any later
+%%     version. The latest version of this license is in:
+%% 
+%%       http://www.latex-project.org/lppl.txt
+%% 
+%%     and version 1.3 or later is part of all distributions of
+%%     LaTeX version 2005/12/01 or later.
+%% 
+%%     This work has the LPPL maintenance status "maintained".
+%% 
+%%     The Current Maintainer of this work is Yu Du.
+%% 
+%% ---------------------------------------------------------------
+%% 
+%%     This package consists of the file yi.dtx,
+%%                 and the derived files yi.ins,
+%%                                       yi.sty,
+%%                                       yi.pdf,
+%%                                   and README.md.
+%% 
+
+\NeedsTeXFormat{LaTeX2e}
+\RequirePackage{expl3}
+\GetIdInfo$Id: yi.dtx 0.1 2023-11-06 11:00:00 +0800 Yu Du <3531243657@qq.com> $
+  {Yi Jing symbol drawing package}
+\ProvidesExplPackage{\ExplFileName}
+  {\ExplFileDate}{\ExplFileVersion}{\ExplFileDescription}
+\RequirePackage { l3draw }
+\msg_new:nnn { yi } { l3-too-old }
+  {
+    Package~ "#1"~ is~ too~ old. \\\\
+    Please~ update~ an~ up-to-date~ version~ of~ the~ bundles \\
+    "l3kernel"~ and~ "l3packages"~ using~ your~ TeX~ package \\
+    manager~ or~ from~ CTAN.
+  }
+\clist_map_inline:nn
+  { expl3, l3draw }
+  {
+    \IfPackageAtLeastTF {#1} { 2023/05/10 }
+      { } { \msg_error:nnn { yi } { l3-too-old } {#1} }
+  }
+\tl_clear_new:N  \l__yi_tmpa_tl
+\tl_clear_new:N  \l__yi_tmpb_tl
+\seq_clear_new:N \l__yi_tmpa_seq
+\seq_clear_new:N \l__yi_tmpb_seq
+\coffin_new:N    \l__yi_tmp_coffin
+\int_new:N \l__yi_type_int
+\int_new:N \l__yi_jinzhi_int
+\int_new:N \l__yi_taiji_bagua_type_int
+\coffin_new:N \l__yi_yinyao_coffin
+\coffin_new:N \l__yi_yangyao_coffin
+\coffin_new:N \l__yi_dongyao_yang_coffin
+\coffin_new:N \l__yi_dongyao_yin_coffin
+\coffin_new:N \l__yi_dongyao_adjust_coffin
+\tl_clear_new:N \l__yi_dongyao_mark_point_tl
+\tl_clear_new:N \l__yi_dongyao_point_tl
+\dim_new:N      \l__yi_dongyao_point_x_dim
+\dim_new:N      \l__yi_dongyao_point_y_dim
+\bool_new:N     \l__yi_dongyao_node_right_bool
+\keys_define:nn { yi/yao }
+  {
+    type .choice:,
+    type .choices:nn =
+      { liangyi, sixiang, bagua, chonggua }
+      { \int_set_eq:NN \l__yi_type_int \l_keys_choice_int },
+    type .value_required:n = true
+  }
+\keys_define:nn { yi/yao }
+  {
+    jinzhi .choice:,
+    jinzhi .choices:nn =
+      { bin, dec }
+      { \int_set_eq:NN \l__yi_jinzhi_int \l_keys_choice_int },
+    jinzhi .initial:n  = bin
+  }
+\clist_map_inline:nn
+  { width, height, vsep, yingap }
+  {
+    \keys_define:nn { yi/yao/dim }
+      {
+        #1 .dim_set:c = { l__yi_yao_ #1 _dim },
+        #1 .groups:n  = { second }
+      }
+  }
+\keys_set:nn { yi/yao/dim }
+  {
+    width  = 1em,
+    height = 1pt,
+    vsep   = 0.1em,
+    yingap = 0.1em
+  }
+\keys_define:nn { yi/yao }
+  {
+    scale  .clist_set:N = \l__yi_yao_xyscale_clist,
+    scale  .initial:n   = {1,1},
+    scale  .groups:n    = { third },
+    rotate .fp_set:N    = \l__yi_yao_rotate_fp,
+    rotate .initial:n   = {0},
+    rotate .groups:n    = { fourth }
+  }
+\fp_new:N  \l__yi_yao_xscale_fp
+\fp_new:N  \l__yi_yao_yscale_fp
+\cs_new_protected:Npn \__yi_yao_get_xyscale:n #1
+  {
+    \str_case:nn {#1}
+      {
+        { x  } { \use_i:nn  }
+        { y  } { \use_ii:nn }
+        { xy } { \use:nn    }
+      }
+    {
+      \fp_set:Nn \l__yi_yao_xscale_fp
+        {
+          \int_case:nn { \clist_count:N \l__yi_yao_xyscale_clist }
+            {
+              {1}
+              { \clist_item:Nn \l__yi_yao_xyscale_clist {1} }
+              {2}
+              { \clist_item:Nn \l__yi_yao_xyscale_clist {1} }
+            }
+        }
+    }
+    {
+      \fp_set:Nn \l__yi_yao_yscale_fp
+        {
+          \int_case:nn { \clist_count:N \l__yi_yao_xyscale_clist }
+            {
+              {1}
+              { \clist_item:Nn \l__yi_yao_xyscale_clist {1} }
+              {2}
+              { \clist_item:Nn \l__yi_yao_xyscale_clist {2} }
+            }
+        }
+    }
+  }
+\keys_define:nn { yi/yao/dongyao }
+  {
+    mark           .bool_set:N   = \l__yi_dongyao_mark_bool,
+    mark           .default:n    = true,
+    mark           .initial:n    = false,
+    mark           .groups:n     = { fifth },
+    num            .clist_set:N  = \l__yi_dongyao_num_clist,
+    num            .groups:n     = { fifth },
+    liuyao-limit    .bool_set:N  = \l__yi_dongyao_liuyao_limit_bool,
+    liuyao-limit    .default:n   = true,
+    liuyao-limit    .initial:n   = true,
+    liuyao-limit    .groups:n    = { sixth },
+    basic-linewidth .dim_set:N   = \l__yi_dongyao_basic_linewidth_dim,
+    basic-linewidth .initial:n   = { 0.1pt },
+    basic-linewidth .groups:n    = { sixth },
+    hspace         .dim_set:N    = \l__yi_dongyao_hspace_dim,
+    hspace         .initial:n    = { 0.1em },
+    hspace         .groups:n     = { sixth },
+    node .choice:,
+    node/left  .code:n =
+      {
+        \tl_set:Nn  \l__yi_dongyao_mark_point_tl {r}
+        \tl_set:Nn  \l__yi_dongyao_point_tl  {l}
+        \bool_set_false:N \l__yi_dongyao_node_right_bool
+      },
+    node/right .code:n =
+      {
+        \tl_set:Nn  \l__yi_dongyao_mark_point_tl {l}
+        \tl_set:Nn  \l__yi_dongyao_point_tl  {r}
+        \bool_set_true:N \l__yi_dongyao_node_right_bool
+      },
+    node .initial:n = right,
+    node .groups:n  = { sixth }
+  }
+\keys_define:nn { yi }
+  {
+    yao         .meta:nn  = { yi/yao }         {#1},
+    yao         .groups:n = { first  },
+    yao/dim     .meta:nn  = { yi/yao/dim }     {#1},
+    yao/dim     .groups:n = { second },
+    yao/dongyao .meta:nn  = { yi/yao/dongyao } {#1},
+    yao/dongyao .groups:n = { first  }
+  }
+\msg_new:nnn { yi } { yao/unfit-dimension }
+  { #1~>=~#2 }
+\msg_new:nnn { yi } { yao/wrong-liangyi }
+  { The~number~needs~to~be:~0~<=~liangyi~<=~1 }
+\msg_new:nnn { yi } { yao/wrong-sixiang }
+  { The~number~needs~to~be:~0~<=~sixiang~<=3 }
+\msg_new:nnn { yi } { yao/wrong-bagua }
+  { The~number~needs~to~be:~0~<=~bagua~<=~7 }
+\msg_new:nnn { yi } { yao/wrong-chonggua }
+  { The~number~needs~to~be:~0~<=~chonggua~<=~63 }
+\cs_new:Npn \__yi_int_to_bin:nn #1#2
+  {
+    \tl_set:Ne \l__yi_tmpa_tl { \int_to_bin:n {#2} }
+    \seq_set_split:Nne \l__yi_tmpb_seq {} { \l__yi_tmpa_tl }
+    \int_case:nn {#1}
+      {
+        {1}
+        {
+          \int_compare:nTF { 0 <= #2 <= 1 }
+            { \tl_set_eq:NN \l__yi_tmpb_tl \l__yi_tmpa_tl }
+            { \msg_error:nnn {yi} { yao/wrong-liangyi } }
+        }
+        {2}
+        {
+          \int_compare:nTF { 0 <= #2 <= 3 }
+            {
+              \int_case:nnF { \seq_count:N \l__yi_tmpb_seq }
+                {
+                  {1}{ \tl_set:Ne \l__yi_tmpb_tl { 0 \l__yi_tmpa_tl } }
+                }
+                { \tl_set_eq:NN \l__yi_tmpb_tl \l__yi_tmpa_tl }
+            }
+            { \msg_error:nnn {yi} { yao/wrong-sixiang } }
+
+        }
+        {3}
+        {
+          \int_compare:nTF { 0 <= #2 <= 7 }
+            {
+              \int_case:nnF { \seq_count:N \l__yi_tmpb_seq }
+                {
+                  {1}{ \tl_set:Ne \l__yi_tmpb_tl { 00 \l__yi_tmpa_tl } }
+                  {2}{ \tl_set:Ne \l__yi_tmpb_tl { 0  \l__yi_tmpa_tl } }
+                }
+                { \tl_set_eq:NN \l__yi_tmpb_tl \l__yi_tmpa_tl }
+            }
+            { \msg_error:nnn {yi} { yao/wrong-bagua } }
+
+        }
+        {4}
+        {
+          \int_compare:nTF { 0 <= #2 <= 63 }
+            {
+              \int_case:nnF { \seq_count:N \l__yi_tmpb_seq }
+                {
+                  {1}{ \tl_set:Ne \l__yi_tmpb_tl { 00000 \l__yi_tmpa_tl } }
+                  {2}{ \tl_set:Ne \l__yi_tmpb_tl { 0000  \l__yi_tmpa_tl } }
+                  {3}{ \tl_set:Ne \l__yi_tmpb_tl { 000   \l__yi_tmpa_tl } }
+                  {4}{ \tl_set:Ne \l__yi_tmpb_tl { 00    \l__yi_tmpa_tl } }
+                  {5}{ \tl_set:Ne \l__yi_tmpb_tl { 0     \l__yi_tmpa_tl } }
+                }
+                { \tl_set_eq:NN \l__yi_tmpb_tl \l__yi_tmpa_tl }
+            }
+            { \msg_error:nnn {yi} { yao/wrong-chonggua } }
+        }
+      }
+  }
+\cs_new:Npn \yi_int_to_bin:nn #1#2
+  {
+    \__yi_int_to_bin:nn {#1} {#2}
+    \l__yi_tmpb_tl
+  }
+\cs_new_protected:Npn \__yi_make_yinyao_coffin:nnn #1#2#3
+  {
+    \hcoffin_set:Nn \l__yi_yinyao_coffin
+      {
+        \dim_compare:nTF { #1 < #2 }
+          {
+            \dim_set:Nn \l_tmpa_dim { (#2-#1)/2 }
+          }
+          {
+            \msg_error:nnnn {yi} { yao/unfit-dimension } {#1} {#2}
+          }
+        \rule{ \l_tmpa_dim }{#3} \skip_horizontal:n {#1} \rule{ \l_tmpa_dim }{#3}
+      }
+  }
+\cs_new_protected:Npn \__yi_make_yangyao_coffin:nn #1#2
+  {
+    \hcoffin_set:Nn \l__yi_yangyao_coffin
+      {
+        \rule{#1}{#2}
+      }
+  }
+\cs_new_protected:Npn \__yi_make_dongyao_label_yang_coffin:nnn #1#2#3
+  {
+    \hcoffin_set:Nw \l__yi_dongyao_yang_coffin
+      \draw_begin:
+        \draw_transform_scale:n { #1 }
+        \draw_linewidth:n { #1 * #2 }
+        \draw_path_moveto:n  { 0 , 0 }
+        \draw_path_circle:nn { 0 , 0 } { #3 }
+        \draw_path_use_clear:n { stroke }
+      \draw_end:
+    \hcoffin_set_end:
+  }
+\cs_new_protected:Npn \__yi_make_dongyao_label_yin_coffin:nnn #1#2#3
+  {
+    \hcoffin_set:Nw \l__yi_dongyao_yin_coffin
+      \draw_begin:
+        \draw_transform_scale:n { #1 }
+        \draw_linewidth:n { #1 * #2 }
+        \draw_path_moveto:n {  0 , 0  }
+        \draw_path_lineto:n { #3 , #3 }
+        \draw_path_moveto:n {  0 , #3 }
+        \draw_path_lineto:n { #3 , 0  }
+        \draw_path_use_clear:n { stroke }
+      \draw_end:
+    \hcoffin_set_end:
+  }
+\cs_new:Npn \exp_args:NNnVNnV { \::N \::n \::V \::N \::n \::V \::: }
+\prg_new_conditional:Npnn \__yi_dongyao_liuyao_limit_bin:N #1 { p }
+  {
+    \bool_lazy_and:nnTF
+      { \int_compare_p:nNn { \l__yi_jinzhi_int } = {1} }
+      { \int_compare_p:nNn { \seq_count:N #1   } = {6} }
+      { \prg_return_true: } { \prg_return_false: }
+  }
+\prg_new_conditional:Npnn \__yi_dongyao_liuyao_limit_dec: { p }
+  {
+    \bool_lazy_and:nnTF
+      { \int_compare_p:nNn { \l__yi_jinzhi_int } = {2} }
+      { \int_compare_p:nNn { \l__yi_type_int   } = {4} }
+      { \prg_return_true: } { \prg_return_false: }
+  }
+\cs_new:Npn \__yi_dongyao_get:NNN #1#2#3
+  {
+    \bool_if:NTF \l__yi_dongyao_liuyao_limit_bool
+      { \bool_lazy_or:nnT }
+      { \use_iii:nnn      }
+    { \__yi_dongyao_liuyao_limit_dec_p:     }
+    { \__yi_dongyao_liuyao_limit_bin_p:N #1 }
+    {
+      \__yi_yao_get_xyscale:n {y}
+      \__yi_make_dongyao_label_yin_coffin:nnn { \l__yi_yao_yscale_fp }
+        { \l__yi_dongyao_basic_linewidth_dim }
+        { 0.9 * \l__yi_yao_height_dim  }
+      \__yi_make_dongyao_label_yang_coffin:nnn { \l__yi_yao_yscale_fp }
+        { \l__yi_dongyao_basic_linewidth_dim  }
+        { 0.9*\l__yi_yao_height_dim / 2 }
+      \bool_if:NTF \l__yi_dongyao_node_right_bool
+        {
+          \dim_set:Nn \l__yi_dongyao_point_x_dim { \l__yi_dongyao_hspace_dim  }
+        }
+        {
+          \dim_set:Nn \l__yi_dongyao_point_x_dim { -\l__yi_dongyao_hspace_dim }
+        }
+      \clist_map_inline:Nn #3
+        {
+          \dim_set:Nn \l__yi_dongyao_point_y_dim
+            {
+              \fp_to_dim:n
+                {
+                  \l__yi_yao_yscale_fp * ( ##1-1 ) *
+                  ( \l__yi_yao_vsep_dim + \l__yi_yao_height_dim )
+                }
+            }
+          \int_case:nn { \seq_item:Nn #1 { ##1 } }
+            {
+              {0}
+              {
+                \exp_args:NNnVNnV
+                  \coffin_attach:NnnNnnnn
+                    #2                         {b} { \l__yi_dongyao_point_tl      }
+                    \l__yi_dongyao_yin_coffin  {b} { \l__yi_dongyao_mark_point_tl }
+                    { \l__yi_dongyao_point_x_dim } { \l__yi_dongyao_point_y_dim   }
+              }
+              {1}
+              {
+                \exp_args:NNnVNnV
+                  \coffin_attach:NnnNnnnn
+                    #2                         {b} { \l__yi_dongyao_point_tl      }
+                    \l__yi_dongyao_yang_coffin {b} { \l__yi_dongyao_mark_point_tl }
+                    { \l__yi_dongyao_point_x_dim } { \l__yi_dongyao_point_y_dim   }
+              }
+            }
+        }
+      \hcoffin_set:Nn  \l__yi_dongyao_adjust_coffin
+        {
+          \skip_horizontal:n
+            {
+              \fp_to_dim:n
+                {
+                  \l__yi_dongyao_hspace_dim +
+                  \l__yi_yao_yscale_fp * 0.9 *
+                  \l__yi_yao_height_dim
+                }
+            }
+        }
+      \bool_if:NTF \l__yi_dongyao_node_right_bool
+        {
+          \coffin_join:NnnNnnnn
+            #2                           {b} {r}
+            \l__yi_dongyao_adjust_coffin {b} {l}
+            { 0pt }{ 0pt }
+        }
+        {
+          \coffin_join:NnnNnnnn
+            #2                           {b} {l}
+            \l__yi_dongyao_adjust_coffin {b} {r}
+            { 0pt } { 0pt }
+        }
+    }
+  }
+\cs_new_protected:Npn \__yi_yao_stack:Nn #1#2
+  {
+    \coffin_clear:N  \l__yi_tmp_coffin
+    \vcoffin_set:Nnn \l__yi_tmp_coffin
+      { \l__yi_yao_width_dim }
+      { \skip_vertical:n { - #2 } }
+    \__yi_make_yinyao_coffin:nnn
+      { \l__yi_yao_yingap_dim }
+      { \l__yi_yao_width_dim  }
+      { \l__yi_yao_height_dim }
+    \__yi_make_yangyao_coffin:nn
+      { \l__yi_yao_width_dim  }
+      { \l__yi_yao_height_dim }
+    \seq_map_inline:Nn #1
+      {
+        \int_case:nn { ##1 }
+          {
+            {0}
+            {
+              \coffin_join:NnnNnnnn
+                \l__yi_tmp_coffin    {l} {t}
+                \l__yi_yinyao_coffin {l} {b}
+                { 0em } {#2}
+            }
+            {1}
+            {
+              \coffin_join:NnnNnnnn
+                \l__yi_tmp_coffin     {l} {t}
+                \l__yi_yangyao_coffin {l} {b}
+                { 0em } {#2}
+            }
+          }
+      }
+  }
+\cs_new:Npn \__yi_draw_yao:nnn #1#2#3
+  {
+    \int_case:nn {#2}
+      {
+        {1}{ \seq_set_split:Nnn \l__yi_tmpa_seq {} {#3} }
+        {2}
+        {
+          \__yi_int_to_bin:nn { \l__yi_type_int } {#3}
+          \seq_set_split:Nne \l__yi_tmpa_seq {} { \l__yi_tmpb_tl }
+        }
+      }
+    \__yi_yao_stack:Nn \l__yi_tmpa_seq {#1}
+    \__yi_yao_get_xyscale:n { xy }
+    \coffin_scale:Nnn \l__yi_tmp_coffin
+      { \l__yi_yao_xscale_fp } { \l__yi_yao_yscale_fp }
+    \bool_if:NT \l__yi_dongyao_mark_bool
+      {
+        \__yi_dongyao_get:NNN
+          \l__yi_tmpa_seq
+          \l__yi_tmp_coffin
+          \l__yi_dongyao_num_clist
+      }
+    \coffin_rotate:Nn \l__yi_tmp_coffin { \l__yi_yao_rotate_fp }
+    \coffin_typeset:Nnnnn \l__yi_tmp_coffin {H} {l} { 0pt } { 0pt }
+  }
+\cs_generate_variant:Nn \__yi_draw_yao:nnn { nne }
+\NewDocumentCommand{\yao}{ o m }
+  {
+    \group_begin:
+      \IfNoValueF{#1}
+        {
+          \keys_set:nn { yi/yao } {#1}
+        }
+      \__yi_draw_yao:nnn { \l__yi_yao_vsep_dim } { \l__yi_jinzhi_int } {#2}
+    \group_end:
+  }
+\clist_map_inline:nn
+  { linewidth, Radius, radius }
+  {
+    \keys_define:nn { yi/taiji/dim }
+      {
+        #1 .dim_set:c = { l__yi_taiji_ #1 _dim },
+        #1 .groups:n  = { second }
+      }
+  }
+\keys_set:nn { yi/taiji/dim }
+  {
+    linewidth = 0.4pt,
+    Radius    = 0.5em,
+    radius    = 0.05em
+  }
+\keys_define:nn {yi/taiji}
+  {
+    scale   .fp_set:N   = \l__yi_taiji_scale_fp,
+    scale   .initial:n  = {1},
+    scale   .groups:n   = { third },
+    rotate  .fp_set:N   = \l__yi_taiji_rotate_fp,
+    rotate  .initial:n  = {0},
+    rotate  .groups:n   = { fourth },
+    reflect .bool_set:N = \l__yi_taiji_reflect_bool,
+    reflect .default:n  = true,
+    reflect .initial:n  = false,
+    reflect .groups:n   = { third },
+    lower   .dim_set:N  = \l__yi_taiji_lower_dim,
+    lower   .initial:n  = { 0pt }
+  }
+\keys_define:nn { yi }
+  {
+    taiji     .meta:nn  = { yi/taiji     } {#1},
+    taiji     .groups:n = { first  },
+    taiji/dim .meta:nn  = { yi/taiji/dim } {#1},
+    taiji/dim .groups:n = { second }
+  }
+\cs_new_protected:Npn \__yi_draw_taiji:
+  {
+    \draw_begin:
+      \draw_linewidth:n { \l__yi_taiji_linewidth_dim }
+      \draw_transform_scale:n { \l__yi_taiji_scale_fp }
+      \draw_transform_rotate:n { \l__yi_taiji_rotate_fp }
+      \draw_path_moveto:n { 0 , 0 }
+      \draw_path_circle:nn { 0 , 0 } { \l__yi_taiji_Radius_dim }
+      \draw_path_use_clear:n { stroke }
+      \draw_path_moveto:n { 0 , \l__yi_taiji_Radius_dim }
+      \bool_if:NTF \l__yi_taiji_reflect_bool
+        { \use_ii_i:nn }
+        { \use:nn      }
+      { \draw_path_arc:nnn {  90 } { -90 } { \l__yi_taiji_Radius_dim/2 } }
+      { \draw_path_arc:nnn {  90 } { 270 } { \l__yi_taiji_Radius_dim/2 } }
+      \bool_if:NTF \l__yi_taiji_reflect_bool
+        { \use_ii:nn }
+        { \use_i:nn  }
+      { \draw_path_arc:nnn { -90 } {  90 } { \l__yi_taiji_Radius_dim }   }
+      { \draw_path_arc:nnn { 270 } {  90 } { \l__yi_taiji_Radius_dim }   }
+      \color_fill:n { black }
+      \draw_path_use_clear:n { fill , stroke }
+      \draw_path_circle:nn { 0 , -\l__yi_taiji_Radius_dim/2 } { \l__yi_taiji_radius_dim }
+      \color_fill:n { white }
+      \draw_path_use_clear:n { fill }
+      \draw_path_circle:nn { 0 ,  \l__yi_taiji_Radius_dim/2 } { \l__yi_taiji_radius_dim }
+      \color_fill:n { black }
+      \draw_path_use_clear:n { fill }
+    \draw_end:
+  }
+\NewDocumentCommand{\taiji}{o}
+  {
+    \group_begin:
+      \IfNoValueF{#1}
+        {
+          \keys_set:nn { yi/taiji } {#1}
+        }
+      \mode_if_horizontal:TF
+        { \tex_lower:D \l__yi_taiji_lower_dim \hbox:n{ \__yi_draw_taiji: } }
+        { \__yi_draw_taiji: }
+    \group_end:
+  }
+\prop_const_from_keyval:Nn \c__yi_liangyi_prop
+  {
+    { 阳爻 } = { 1 },
+    { 阴爻 } = { 0 }
+  }
+\prop_const_from_keyval:Nn \c__yi_sixiang_prop
+  {
+    { 太阳 } = { 11 },
+    { 少阴 } = { 10 },
+    { 少阳 } = { 01 },
+    { 太阴 } = { 00 }
+  }
+\prop_const_from_keyval:Nn \c__yi_bagua_prop
+  {
+    { 乾 } = { 111 },
+    { 兑 } = { 110 },
+    { 离 } = { 101 },
+    { 震 } = { 100 },
+    { 巽 } = { 011 },
+    { 坎 } = { 010 },
+    { 艮 } = { 001 },
+    { 坤 } = { 000 }
+  }
+\prop_const_from_keyval:Nn \c__yi_chonggua_prop
+  {
+    { 乾   } = { 111111 } ,
+    { 坤   } = { 000000 } ,
+    { 屯   } = { 100010 } ,
+    { 蒙   } = { 010001 } ,
+    { 需   } = { 111010 } ,
+    { 讼   } = { 010111 } ,
+    { 师   } = { 010000 } ,
+    { 比   } = { 000010 } ,
+    { 小畜 } = { 111011 } ,
+    { 履   } = { 110111 } ,
+    { 泰   } = { 111000 } ,
+    { 否   } = { 000111 } ,
+    { 同人 } = { 101111 } ,
+    { 大有 } = { 111101 } ,
+    { 谦   } = { 001000 } ,
+    { 豫   } = { 000100 } ,
+    { 随   } = { 100110 } ,
+    { 蛊   } = { 011001 } ,
+    { 临   } = { 110000 } ,
+    { 观   } = { 000011 } ,
+    { 噬嗑 } = { 100101 } ,
+    { 贲   } = { 101001 } ,
+    { 剥   } = { 000001 } ,
+    { 复   } = { 100000 } ,
+    { 无妄 } = { 100111 } ,
+    { 大畜 } = { 111001 } ,
+    { 颐   } = { 100001 } ,
+    { 大过 } = { 011110 } ,
+    { 坎   } = { 010010 } ,
+    { 离   } = { 101101 } ,
+    { 咸   } = { 001110 } ,
+    { 恒   } = { 011100 } ,
+    { 遁   } = { 001111 } ,
+    { 大壮 } = { 111100 } ,
+    { 晋   } = { 000101 } ,
+    { 明夷 } = { 101000 } ,
+    { 家人 } = { 101011 } ,
+    { 睽   } = { 110101 } ,
+    { 蹇   } = { 001010 } ,
+    { 解   } = { 010100 } ,
+    { 损   } = { 110001 } ,
+    { 益   } = { 100011 } ,
+    { 夬   } = { 111110 } ,
+    { 姤   } = { 011111 } ,
+    { 萃   } = { 000110 } ,
+    { 升   } = { 011000 } ,
+    { 困   } = { 010110 } ,
+    { 井   } = { 011010 } ,
+    { 革   } = { 101110 } ,
+    { 鼎   } = { 011101 } ,
+    { 震   } = { 100100 } ,
+    { 艮   } = { 001001 } ,
+    { 渐   } = { 001011 } ,
+    { 归妹 } = { 110100 } ,
+    { 丰   } = { 101100 } ,
+    { 旅   } = { 001101 } ,
+    { 巽   } = { 011011 } ,
+    { 兑   } = { 110110 } ,
+    { 涣   } = { 010011 } ,
+    { 节   } = { 110010 } ,
+    { 中孚 } = { 110011 } ,
+    { 小过 } = { 001100 } ,
+    { 既济 } = { 101010 } ,
+    { 未济 } = { 010101 }
+  }
+\NewDocumentCommand{\liangyi}{ o m }
+  {
+    \group_begin:
+      \IfNoValueF{#1}
+        {
+          \keys_set_groups:nnn { yi/yao }
+            { first, second, third, fourth, fifth, sixth } {#1}
+        }
+      \tl_clear:N \l_tmpa_tl
+      \tl_set:Ne \l_tmpa_tl { \prop_item:Nn \c__yi_liangyi_prop {#2} }
+      \__yi_draw_yao:nne { \l__yi_yao_vsep_dim } { 1 } { \l_tmpa_tl }
+    \group_end:
+  }
+\NewDocumentCommand{\sixiang}{ o m }
+  {
+    \group_begin:
+      \IfNoValueF{#1}
+        {
+          \keys_set_groups:nnn { yi/yao }
+            { first, second, third, fourth, fifth, sixth } {#1}
+        }
+      \tl_clear:N \l_tmpa_tl
+      \tl_set:Ne \l_tmpa_tl { \prop_item:Nn \c__yi_sixiang_prop {#2} }
+      \__yi_draw_yao:nne { \l__yi_yao_vsep_dim } { 1 } { \l_tmpa_tl }
+    \group_end:
+  }
+\NewDocumentCommand{\bagua}{ o m }
+  {
+    \group_begin:
+      \IfNoValueF{#1}
+        {
+          \keys_set_groups:nnn { yi/yao }
+            { first, second, third, fourth, fifth, sixth } {#1}
+        }
+      \tl_clear:N \l_tmpa_tl
+      \tl_set:Nn \l_tmpa_tl { \prop_item:Nn \c__yi_bagua_prop {#2} }
+      \__yi_draw_yao:nne { \l__yi_yao_vsep_dim } { 1 } { \l_tmpa_tl }
+    \group_end:
+  }
+\NewDocumentCommand{\chonggua}{ o m }
+  {
+    \group_begin:
+      \IfNoValueF{#1}
+        {
+          \keys_set_groups:nnn { yi/yao }
+            { first, second, third, fourth, fifth, sixth } {#1}
+        }
+      \tl_clear:N \l_tmpa_tl
+      \tl_set:Nn \l_tmpa_tl { \prop_item:Nn \c__yi_chonggua_prop {#2} }
+      \__yi_draw_yao:nne { \l__yi_yao_vsep_dim } { 1 } { \l_tmpa_tl }
+    \group_end:
+  }
+\clist_const:Nn \c__yi_houtian_bagua_clist
+  { 离, 巽, 震, 艮, 坎, 乾, 兑, 坤 }
+\clist_const:Nn \c__yi_xiantian_bagua_clist
+  { 乾, 兑, 离, 震, 坤, 艮, 坎, 巽  }
+\clist_const:Nn \c__yi_fangwei_clist
+  { 南方, 东南, 东方, 东北, 北方, 西北, 西方, 西南 }
+\clist_const:Nn \c__yi_xiantian_num_clist
+  { 1, 2, 3, 4, 8, 7, 6, 5 }
+\clist_const:Nn \c__yi_houtian_num_clist
+  { 9, 4, 3, 8, 1, 6, 7, 2 }
+\clist_map_inline:nn
+  { name, number, fangwei }
+  {
+    \keys_define:nn { yi/taiji-bagua }
+      {
+        #1/show   .bool_set:c = { l__yi_taiji_bagua_ #1 _show_bool },
+        #1/show   .default:n  = true,
+        #1/show   .initial:n  = false,
+        #1/show   .groups:n   = { second },
+        #1/format .tl_set:c   = { l__yi_taiji_bagua_ #1 _format_tl },
+        #1/format .groups:n   = { second },
+        #1        .meta:nn    = { yi/taiji-bagua/#1 } {##1},
+        #1        .groups:n   = { second }
+      }
+  }
+\keys_set:nn { yi/taiji-bagua }
+  {
+    fangwei/format = { \itshape  },
+    name/format    = { \bfseries }
+  }
+\keys_define:nn { yi/taiji-bagua }
+  {
+    type .choice:,
+    type .value_required:n = true,
+    type .choices:nn       =
+      { xiantian, houtian }
+      { \int_set_eq:NN \l__yi_taiji_bagua_type_int \l_keys_choice_int },
+    gscale .fp_set:N       = \l__yi_taiji_bagua_scale_fp,
+    gscale .initial:n      = 1,
+    gscale .groups:n       = { third }
+  }
+\keys_define:nn { yi/taiji-bagua }
+  {
+    taiji     .inherit:n = { yi/taiji     },
+    taiji/dim .inherit:n = { yi/taiji/dim },
+    taiji     .meta:nn   = { yi/taiji } {#1}
+  }
+\keys_define:nn { yi/taiji-bagua  }
+  {
+    bagua/dim   .inherit:n = { yi/yao/dim },
+    bagua/scale .code:n    = { \keys_set:nn { yi/yao } { scale = {#1} } },
+    bagua       .code:n    =
+      {
+        \keys_set_groups:nnn { yi/yao } { first, second, third } {#1}
+      }
+  }
+\keys_define:nn { yi }
+  {
+    taiji-bagua .meta:nn  = { yi/taiji-bagua } {#1},
+    taiji-bagua .groups:n = { first }
+  }
+\cs_new_protected:Npn \draw_node_center_polar:nnn #1#2#3
+  {
+    \draw_transform_shift:n { \draw_point_polar:nn {#1} {#2} }
+    \coffin_clear:N \l_tmpa_coffin
+    \hcoffin_set:Nn \l_tmpa_coffin { #3 }
+    \draw_coffin_use:Nnn \l_tmpa_coffin {hc} {vc}
+  }
+\cs_new:Npn \__yi_draw_taiji_bagua:
+  {
+    \draw_begin:
+      \draw_transform_scale:n { \l__yi_taiji_bagua_scale_fp }
+      \draw_path_moveto:n { 0cm , 0cm }
+      \hcoffin_set:Nn \l_tmpa_coffin { \__yi_draw_taiji: }
+      \draw_coffin_use:Nnn \l_tmpa_coffin {hc} {vc}
+      \int_step_inline:nnn {1} {8}
+        {
+          \draw_path_scope_begin:
+            \draw_path_moveto:n { 0cm , 0cm }
+            \draw_transform_rotate:n { (##1-1) * 45 }
+            \draw_node_center_polar:nnn
+              { \l__yi_taiji_bagua_scale_fp * 2.4cm }
+              { (##1-1) * 45 + 90 }
+              {
+                \int_case:nn { \l__yi_taiji_bagua_type_int }
+                  {
+                    {1}
+                    {
+                      \tl_clear:N \l_tmpa_tl
+                      \tl_set:Ne \l_tmpa_tl
+                        {
+                          \prop_item:Ne \c__yi_bagua_prop
+                            {
+                              \clist_item:Nn \c__yi_xiantian_bagua_clist {##1}
+                            }
+                        }
+                      \__yi_draw_yao:nne { \l__yi_yao_vsep_dim } { 1 } { \l_tmpa_tl }
+                    }
+                    {2}
+                    {
+                      \tl_clear:N \l_tmpa_tl
+                      \tl_set:Ne \l_tmpa_tl
+                        {
+                          \prop_item:Ne \c__yi_bagua_prop
+                            {
+                              \clist_item:Nn \c__yi_houtian_bagua_clist {##1}
+                            }
+                        }
+                      \__yi_draw_yao:nne { \l__yi_yao_vsep_dim } { 1 } { \l_tmpa_tl }
+                    }
+                  }
+              }
+            \bool_if:NT \l__yi_taiji_bagua_name_show_bool
+              {
+                \draw_node_center_polar:nnn
+                  { \l__yi_taiji_bagua_scale_fp * 0.68cm }
+                  { (##1-1) * 45 + 90 }
+                  {
+                    \int_case:nn { \l__yi_taiji_bagua_type_int }
+                      {
+                        {1}
+                        {
+                          \l__yi_taiji_bagua_name_format_tl
+                          { \clist_item:Nn \c__yi_xiantian_bagua_clist {##1} }
+                        }
+                        {2}
+                        {
+                          \l__yi_taiji_bagua_name_format_tl
+                          { \clist_item:Nn \c__yi_houtian_bagua_clist {##1} }
+                        }
+                      }
+                  }
+              }
+            \bool_if:NT \l__yi_taiji_bagua_number_show_bool
+              {
+                \draw_node_center_polar:nnn
+                  { \l__yi_taiji_bagua_scale_fp * 0.68cm }
+                  { (##1-1) * 45 + 90 }
+                  {
+                    \int_case:nn { \l__yi_taiji_bagua_type_int }
+                      {
+                        {1}
+                        {
+                          \l__yi_taiji_bagua_number_format_tl
+                          { \clist_item:Nn \c__yi_xiantian_num_clist {##1} }
+                        }
+                        {2}
+                        {
+                          \l__yi_taiji_bagua_number_format_tl
+                          { \clist_item:Nn \c__yi_houtian_num_clist {##1} }
+                        }
+                      }
+                  }
+              }
+            \bool_if:NT \l__yi_taiji_bagua_fangwei_show_bool
+              {
+                \draw_node_center_polar:nnn
+                  { \l__yi_taiji_bagua_scale_fp * 0.68cm }
+                  { (##1-1) * 45 + 90 }
+                  {
+                    \l__yi_taiji_bagua_fangwei_format_tl
+                    { \clist_item:Nn \c__yi_fangwei_clist {##1} }
+                  }
+              }
+            \coffin_clear:N \l_tmpa_coffin
+          \draw_path_scope_end:
+        }
+    \draw_end:
+  }
+\NewDocumentCommand{\taijibagua}{ o m }
+  {
+    \group_begin:
+      \keys_set:nn { yi/taiji-bagua }
+        {
+          taiji =
+            {
+              scale         = 6,
+              rotate        = 0,
+              dim/Radius    = 0.5em,
+              dim/radius    = 0.05em,
+              dim/linewidth = 0.4pt
+            },
+          bagua =
+            {
+              scale      = 3.3 ,
+              dim/width  = 1em,
+              dim/height = 1pt,
+              dim/vsep   = 0.1em,
+              dim/yingap = 0.1em
+            }
+        }
+      \IfNoValueF{#1}
+        {
+          \keys_set:nn { yi/taiji-bagua } { #1 }
+        }
+      \keys_set:nn { yi/taiji-bagua } { type = #2 }
+      \bool_set_false:N \l__yi_dongyao_mark_bool
+      \int_compare:nNnT {\l__yi_taiji_bagua_type_int} = {1}
+        {
+          \keys_set:nn { yi/taiji-bagua }
+            { taiji = { reflect, rotate=180 } }
+        }
+      \__yi_draw_taiji_bagua:
+    \group_end:
+  }
+\cs_new:Npn \seq_scope:NnnN #1#2#3#4
+  {
+    \seq_clear_new:N #4
+    \int_step_inline:nnnn {#2}{1}{#3}
+      {
+        \seq_put_right:Ne #4 { \seq_item:Nn #1 {##1} }
+      }
+  }
+\cs_new:Npn \__yi_get_hugua_seq:NN #1#2
+  {
+    \seq_clear_new:N #2
+    \seq_scope:NnnN #1 {2}{4} \l__yi_hugua_down
+    \seq_scope:NnnN #1 {3}{5} \l__yi_hugua_up
+    \seq_concat:NNN #2 \l__yi_hugua_down \l__yi_hugua_up
+  }
+\keys_define:nn { yi/meihuayishu }
+  {
+    hspace .dim_set:N = \l__yi_meihua_yishu_hspace_dim,
+    hspace .initial:n = {2em}
+  }
+\keys_define:nn { yi/meihuayishu }
+  {
+    yao/dim .inherit:n = { yi/yao/dim },
+    yao .code:n    =
+      {
+        \keys_set_groups:nnn { yi/yao }
+          { first, second, third, fourth, sixth } {#1}
+      }
+  }
+\clist_map_inline:nn
+  { scale, rotate, dongyao/hspace, dongyao/node, dongyao/basic-linewidth }
+  {
+    \keys_define:nn { yi/meihuayishu }
+      {
+        yao/#1 .code:n = { \keys_set:nn { yi/yao } { #1 = {##1} } }
+      }
+  }
+\cs_new_protected:Npn \__yi_meihua_yishu_get_xiantian_num:n #1
+  {
+    \int_compare:nNnT {#1} > {0}
+      {
+        \int_compare:nTF { 1 <= #1 <= 8 }
+        {#1}
+        {
+          \int_compare:nNnTF { \int_mod:nn {#1} {8} } = {0}
+            {8}
+            { \int_mod:nn {#1} {8} }
+        }
+      }
+  }
+\cs_new_protected:Npn \__yi_meihua_yishu_get_dongyao_num:n #1
+  {
+    \int_compare:nNnT {#1} > {0}
+      {
+        \int_compare:nTF { 1 <= #1 <= 6 }
+        {#1}
+        {
+          \int_compare:nNnTF { \int_mod:nn {#1} {6} } = {0}
+            {6}
+            { \int_mod:nn {#1} {6} }
+        }
+      }
+  }
+\cs_generate_variant:Nn  \seq_set_item:Nnn { NnV }
+\cs_new:Npn \__yi_meihua_yishu_qigua:nnn #1#2#3
+  {
+    \group_begin:
+      \seq_clear:N \l_tmpb_seq
+      \seq_clear:N \l_tmpa_seq
+      \__yi_int_to_bin:nn {3} { 8 - \__yi_meihua_yishu_get_xiantian_num:n {#1} }
+      \seq_set_split:Nne \l_tmpa_seq {} { \l__yi_tmpb_tl }
+      \__yi_int_to_bin:nn {3} { 8 - \__yi_meihua_yishu_get_xiantian_num:n {#2} }
+      \seq_set_split:Nne \l_tmpb_seq {} { \l__yi_tmpb_tl }
+      \seq_concat:NNN \l_tmpa_seq \l_tmpb_seq \l_tmpa_seq
+      \bool_set_true:N  \l__yi_dongyao_mark_bool
+      \int_set:Nn \l_tmpa_int { \__yi_meihua_yishu_get_dongyao_num:n {#3} }
+      \clist_set:NV \l__yi_dongyao_num_clist { \l_tmpa_int }
+      \__yi_draw_yao:nne { \l__yi_yao_vsep_dim } { 1 }
+        { \seq_use:Nn \l_tmpa_seq {} }
+      \bool_set_false:N  \l__yi_dongyao_mark_bool
+      \__yi_get_hugua_seq:NN \l_tmpa_seq \l__yi_hugua_tmpa_seq
+      \skip_horizontal:n {\l__yi_meihua_yishu_hspace_dim }
+      \__yi_draw_yao:nne { \l__yi_yao_vsep_dim } { 1 }
+        { \seq_use:Nn \l__yi_hugua_tmpa_seq {} }
+      \int_case:nn { \seq_item:Nn \l_tmpa_seq { \l_tmpa_int } }
+        {
+          {0}{ \int_set:Nn \l_tmpb_int {1} }
+          {1}{ \int_set:Nn \l_tmpb_int {0} }
+        }
+      \seq_set_item:NnV \l_tmpa_seq { \l_tmpa_int }  { \l_tmpb_int }
+      \bool_if:NTF \l__yi_dongyao_node_right_bool
+        {
+          \__yi_yao_get_xyscale:n {y}
+          \skip_horizontal:n
+            {
+              \fp_to_dim:n
+                {
+                  \l__yi_dongyao_hspace_dim +
+                  \l__yi_yao_yscale_fp * 0.9 *
+                  \l__yi_yao_height_dim +
+                  \l__yi_meihua_yishu_hspace_dim
+                }
+            }
+        }
+        {
+          \skip_horizontal:n { \l__yi_meihua_yishu_hspace_dim }
+        }
+      \__yi_draw_yao:nne { \l__yi_yao_vsep_dim } { 1 }
+        { \seq_use:Nn \l_tmpa_seq {} }
+      \seq_clear:N \l_tmpb_seq
+      \seq_clear:N \l_tmpa_seq
+    \group_end:
+  }
+\NewDocumentCommand{\qigua}{ o m m m }
+  {
+    \group_begin:
+      \keys_set:nn { yi/meihuayishu }
+        {
+          yao/scale = 3,
+          yao/dongyao/hspace = { 0.2em }
+        }
+      \IfNoValueF{#1}
+        {
+          \keys_set:nn { yi/meihuayishu } {#1}
+        }
+      \__yi_meihua_yishu_qigua:nnn {#2} {#3} {#4}
+    \group_end:
+  }
+\NewDocumentCommand{\yisetup}{ m }
+  {
+    \keys_set_groups:nnn { yi } { first, second, third, sixth } {#1}
+  }
+\endinput
+%%
+%% End of file `yi.sty'.
